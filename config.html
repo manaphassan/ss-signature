@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configuration Manager - SS Signature</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #043388;
+            --primary-dark: #022057;
+            --primary-light: #21A1F7;
+            --accent: #6DC6EC;
+            --secondary: #BD9A73;
+            --bg-dark: #000000;
+            --bg-card: #3C3C3B;
+            --bg-input: #575756;
+            --text-primary: #ffffff;
+            --text-secondary: #CCCCCC;
+            --border: #666666;
+            --success: #21A1F7;
+        }
+
+        [data-theme="light"] {
+            --bg-dark: #ffffff;
+            --bg-card: #ffffff;
+            --bg-input: #CCCCCC;
+            --text-primary: #000000;
+            --text-secondary: #666666;
+            --border: #999999;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 2rem 1rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+        }
+
+        .nav-links {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--primary-light);
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            background: var(--bg-input);
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+            overflow-x: auto;
+        }
+
+        .tab {
+            padding: 1rem 2rem;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border-bottom: 3px solid transparent;
+            white-space: nowrap;
+        }
+
+        .tab.active {
+            color: var(--primary-light);
+            border-bottom-color: var(--primary-light);
+        }
+
+        .tab:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .config-section {
+            background: var(--bg-card);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title::before {
+            content: '';
+            width: 4px;
+            height: 24px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            border-radius: 2px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .form-label {
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            padding: 0.875rem 1rem;
+            background: var(--bg-input);
+            border: 2px solid var(--border);
+            border-radius: 0.75rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(33, 161, 247, 0.1);
+        }
+
+        .btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(4, 51, 136, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(4, 51, 136, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 100%);
+            color: white;
+            box-shadow: 0 10px 30px rgba(33, 161, 247, 0.3);
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(33, 161, 247, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .office-item {
+            background: var(--bg-input);
+            padding: 1rem;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border);
+        }
+
+        .office-item h4 {
+            color: var(--primary-light);
+            margin-bottom: 0.5rem;
+        }
+
+        .button-group {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .success-message {
+            display: none;
+            padding: 1rem;
+            background: rgba(33, 161, 247, 0.1);
+            border: 1px solid var(--success);
+            border-radius: 0.75rem;
+            color: var(--success);
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .success-message.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tabs {
+                flex-wrap: nowrap;
+            }
+
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚙️ Configuration Manager</h1>
+            <p>Manage offices, social media, branding, and default values</p>
+        </div>
+
+        <div class="nav-links">
+            <a href="index.html">← Back to Signature Generator</a>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('offices')">Offices</button>
+            <button class="tab" onclick="switchTab('social')">Social Media</button>
+            <button class="tab" onclick="switchTab('branding')">Branding</button>
+            <button class="tab" onclick="switchTab('defaults')">Defaults</button>
+        </div>
+
+        <!-- Offices Tab -->
+        <div id="offices-tab" class="tab-content active">
+            <div class="config-section">
+                <h2 class="section-title">Office Locations</h2>
+                <div id="offices-list"></div>
+                <button class="btn btn-primary" onclick="addOffice()">+ Add New Office</button>
+            </div>
+        </div>
+
+        <!-- Social Media Tab -->
+        <div id="social-tab" class="tab-content">
+            <div class="config-section">
+                <h2 class="section-title">Social Media Links</h2>
+                <div id="social-form" class="form-grid"></div>
+            </div>
+        </div>
+
+        <!-- Branding Tab -->
+        <div id="branding-tab" class="tab-content">
+            <div class="config-section">
+                <h2 class="section-title">Brand Colors & Assets</h2>
+                <div id="branding-form" class="form-grid"></div>
+            </div>
+        </div>
+
+        <!-- Defaults Tab -->
+        <div id="defaults-tab" class="tab-content">
+            <div class="config-section">
+                <h2 class="section-title">Default Values</h2>
+                <div id="defaults-form" class="form-grid"></div>
+            </div>
+        </div>
+
+        <div class="config-section">
+            <div class="button-group">
+                <button class="btn btn-success" onclick="saveConfig()">💾 Save & Download Config</button>
+                <button class="btn btn-primary" onclick="loadConfig()">📂 Load Config File</button>
+            </div>
+            <div class="success-message" id="successMessage"></div>
+        </div>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script>
+        let configData = JSON.parse(JSON.stringify(CONFIG)); // Deep copy
+
+        function switchTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Update tab content
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById(tabName + '-tab').classList.add('active');
+        }
+
+        function renderOffices() {
+            const container = document.getElementById('offices-list');
+            container.innerHTML = '';
+
+            configData.offices.forEach((office, index) => {
+                const officeDiv = document.createElement('div');
+                officeDiv.className = 'office-item';
+                officeDiv.innerHTML = `
+                    <h4>${office.name}</h4>
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label class="form-label">Office ID</label>
+                            <input type="text" class="form-input" value="${office.id}" onchange="updateOffice(${index}, 'id', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Name</label>
+                            <input type="text" class="form-input" value="${office.name}" onchange="updateOffice(${index}, 'name', this.value)">
+                        </div>
+                        <div class="form-group full-width">
+                            <label class="form-label">Address</label>
+                            <textarea class="form-textarea" onchange="updateOffice(${index}, 'address', this.value)">${office.address}</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Phone</label>
+                            <input type="tel" class="form-input" value="${office.phone}" onchange="updateOffice(${index}, 'phone', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Logo URL</label>
+                            <input type="text" class="form-input" value="${office.logoUrl}" onchange="updateOffice(${index}, 'logoUrl', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Logo Light URL</label>
+                            <input type="text" class="form-input" value="${office.logoLightUrl}" onchange="updateOffice(${index}, 'logoLightUrl', this.value)">
+                        </div>
+                    </div>
+                    <button class="btn btn-danger" style="margin-top: 1rem;" onclick="deleteOffice(${index})">Delete Office</button>
+                `;
+                container.appendChild(officeDiv);
+            });
+        }
+
+        function renderSocialMedia() {
+            const container = document.getElementById('social-form');
+            container.innerHTML = '';
+
+            Object.keys(configData.socialMedia).forEach(key => {
+                const social = configData.socialMedia[key];
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'form-group full-width';
+                groupDiv.innerHTML = `
+                    <label class="form-label">${social.name} URL</label>
+                    <input type="url" class="form-input" value="${social.url}" onchange="updateSocial('${key}', this.value)">
+                `;
+                container.appendChild(groupDiv);
+            });
+        }
+
+        function renderBranding() {
+            const container = document.getElementById('branding-form');
+            container.innerHTML = '';
+
+            const fields = [
+                { key: 'primaryColor', label: 'Primary Color (SS Blue)', type: 'color' },
+                { key: 'prussianBlue', label: 'Prussian Blue', type: 'color' },
+                { key: 'secondaryColor', label: 'Secondary Color (Azure)', type: 'color' },
+                { key: 'malibu', label: 'Malibu', type: 'color' },
+                { key: 'lion', label: 'Lion', type: 'color' },
+                { key: 'logoUrl', label: 'Logo URL (Dark)', type: 'text' },
+                { key: 'logoLightUrl', label: 'Logo URL (Light)', type: 'text' },
+                { key: 'bannerUrl', label: 'Banner URL', type: 'text' },
+                { key: 'bannerLink', label: 'Banner Link', type: 'url' },
+                { key: 'companyName', label: 'Company Name', type: 'text' }
+            ];
+
+            fields.forEach(field => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'form-group';
+                groupDiv.innerHTML = `
+                    <label class="form-label">${field.label}</label>
+                    <input type="${field.type}" class="form-input" value="${configData.branding[field.key]}" onchange="updateBranding('${field.key}', this.value)">
+                `;
+                container.appendChild(groupDiv);
+            });
+        }
+
+        function renderDefaults() {
+            const container = document.getElementById('defaults-form');
+            container.innerHTML = '';
+
+            Object.keys(configData.defaults).forEach(key => {
+                const groupDiv = document.createElement('div');
+                groupDiv.className = 'form-group';
+                const label = key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
+                groupDiv.innerHTML = `
+                    <label class="form-label">${label}</label>
+                    <input type="text" class="form-input" value="${configData.defaults[key]}" onchange="updateDefaults('${key}', this.value)">
+                `;
+                container.appendChild(groupDiv);
+            });
+        }
+
+        function updateOffice(index, field, value) {
+            configData.offices[index][field] = value;
+        }
+
+        function updateSocial(key, value) {
+            configData.socialMedia[key].url = value;
+        }
+
+        function updateBranding(key, value) {
+            configData.branding[key] = value;
+        }
+
+        function updateDefaults(key, value) {
+            configData.defaults[key] = value;
+        }
+
+        function addOffice() {
+            const newOffice = {
+                id: 'NEW',
+                name: 'New Office',
+                address: '',
+                phone: '',
+                logoUrl: '',
+                logoLightUrl: ''
+            };
+            configData.offices.push(newOffice);
+            renderOffices();
+        }
+
+        function deleteOffice(index) {
+            if (confirm('Are you sure you want to delete this office?')) {
+                configData.offices.splice(index, 1);
+                renderOffices();
+            }
+        }
+
+        function saveConfig() {
+            const configJS = `// Email Signature Generator Configuration
+const CONFIG = ${JSON.stringify(configData, null, 4)};`;
+
+            const blob = new Blob([configJS], { type: 'text/javascript' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'config.js';
+            a.click();
+            URL.revokeObjectURL(url);
+
+            const msg = document.getElementById('successMessage');
+            msg.textContent = '✓ Configuration saved and downloaded!';
+            msg.classList.add('show');
+            setTimeout(() => msg.classList.remove('show'), 3000);
+        }
+
+        function loadConfig() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.js';
+            input.onchange = (e) => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    try {
+                        const content = event.target.result;
+                        const configMatch = content.match(/const CONFIG = ({[\s\S]*});/);
+                        if (configMatch) {
+                            configData = JSON.parse(configMatch[1]);
+                            renderAll();
+                            alert('Configuration loaded successfully!');
+                        } else {
+                            alert('Invalid config file format');
+                        }
+                    } catch (err) {
+                        alert('Error loading config: ' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+            };
+            input.click();
+        }
+
+        function renderAll() {
+            renderOffices();
+            renderSocialMedia();
+            renderBranding();
+            renderDefaults();
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderAll();
+        });
+    </script>
+</body>
+</html>
