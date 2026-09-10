@@ -1,74 +1,97 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>Email Signature</TITLE>
+<HTML>
+<HEAD>
+<TITLE>SuamiSihat Official Email Signature</TITLE>
 <META content="text/html; charset=utf-8" http-equiv="Content-Type">
 </HEAD>
-<BODY style="font-size: 10pt; font-family: Arial, sans-serif;">
+<BODY style="margin: 0; padding: 0; font-family: Arial, Helvetica, -apple-system, sans-serif;">
 
-<table style="width: 430px; font-size: 11pt; font-family: Arial, sans-serif;" cellspacing="0" cellpadding="0" border="0">
-<tbody>
-
- <tr>
-	<td colspan="2" style="border-bottom:1px dotted #000; padding-bottom:10px;">
-		<strong><span style="font-size: 18pt; font-family: Arial, sans-serif; color:{{primaryColor}};">{{firstName}} {{lastName}}</span></strong>
-                <span><br></span>
-                <strong style="font-family: Arial, sans-serif; font-size:10pt; color:#000000;">{{position}}</strong>	
-		<strong><span><span> | </span><a href="http://{{website}}" target="_blank" rel="noopener" style="text-decoration:none;"><span style="font-size: 10pt; font-family: Arial, sans-serif; color:#000000;"> {{website}}</span></a></span></strong>
-		
-	</td>
-  </tr>
-  
- <tr>
-	<td colspan="2" style="font-size:1px; height:15px;line-height:1px">&nbsp;</td>
-  </tr>
-  
- <tr>
-  <td style="text-align:center; font-size: 10pt; font-family: Arial, sans-serif; width: 140px; vertical-align: top;" width="140" valign="top" align="center">
-		<a href="http://{{website}}" target="_blank"><img alt="Logo" style="width:120px; height:auto; border:0;" src="{{logoUrl}}" width="120" border="0"></a>
-		   
-  </td>
-    
- <td style="padding-left:15px;" valign="top">
-  <table cellspacing="0" cellpadding="0" border="0">
+<table style="width: 100%; max-width: 500px; font-size: 10pt; font-family: Arial, Helvetica, -apple-system, sans-serif; color: #334155; line-height: 1.4;" cellspacing="0" cellpadding="0" border="0">
   <tbody>
+    <!-- Header: Name, Credentials, Position, Department -->
     <tr>
-      <td style="font-size: 9pt; font-family: Arial, sans-serif; vertical-align: top; line-height:15px;" valign="top">
-	  
-		<span><span style="color: #000000; font-family: Arial, sans-serif; font-size:12px"><strong>Office:</strong> {{officePhone}}<br></span></span>
-		<span><span style="color: #000000; font-family: Arial, sans-serif; font-size:12px"><strong>Mobile:</strong> {{mobilePhone}}<br></span></span>
-		<span><span style="color: #000000; font-family: Arial, sans-serif; font-size:12px"><strong>Email:</strong> {{email}}<br></span></span>
-		
-		<span>
-			<span style="color: #000000; font-family: Arial, sans-serif; font-size:12px"><strong>Address: </strong></span>
-			<span style="color: #000000; font-family: Arial, sans-serif; font-size:12px;">{{address}}</span>
-		</span>
-
+      <td colspan="2" style="padding-bottom: 12px; border-bottom: 2px solid #043388;">
+        <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
+          <tr>
+            <td style="vertical-align: middle;">
+              <span style="font-size: 16pt; font-weight: bold; font-family: Arial, Helvetica, sans-serif; color: #022057; letter-spacing: -0.3px;">{{fullName}}</span>
+              {{credentialsHtml}}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-top: 3px; font-size: 9.5pt; font-family: Arial, Helvetica, sans-serif; color: #475569;">
+              <strong style="color: #043388;">{{position}}</strong>
+              {{departmentHtml}}
+              <span style="color: #94A3B8;">&nbsp;|&nbsp;</span>
+              <a href="https://suamisihat.clinic" target="_blank" rel="noopener" style="text-decoration: none; color: #043388; font-weight: 600;">suamisihat.clinic</a>
+              <span style="color: #94A3B8;">&nbsp;•&nbsp;</span>
+              <a href="https://suamisihat.com.my" target="_blank" rel="noopener" style="text-decoration: none; color: #043388; font-weight: 600;">suamisihat.com.my</a>
+            </td>
+          </tr>
+        </table>
       </td>
     </tr>
+
+    <!-- Spacer -->
     <tr>
-      <td style="vertical-align: bottom; padding-top:5px;" valign="bottom">
-        {{socialIcons}}
+      <td colspan="2" style="height: 14px; font-size: 1px; line-height: 1px;">&nbsp;</td>
+    </tr>
+
+    <!-- Body: Logo Column + Contact Information Column -->
+    <tr>
+      <!-- Company Logo Column -->
+      <td style="width: 145px; max-width: 145px; vertical-align: top; text-align: center; padding-right: 18px; border-right: 1px solid #E2E8F0;" width="145" valign="top" align="center">
+        <a href="https://{{website}}" target="_blank" rel="noopener" style="display: inline-block; text-decoration: none;">
+          <img alt="{{companyName}}" style="width: 115px; max-width: 115px; height: auto; border: 0; display: block; margin: 0 auto;" src="{{logoUrl}}" width="115" border="0">
+        </a>
+        <div style="margin-top: 8px; line-height: 1.35; text-align: center;">
+          <strong style="font-size: 7.5pt; font-family: Arial, sans-serif; color: #022057; display: block; line-height: 12px; text-align: center;">{{companyName}}</strong>
+          <span style="font-size: 6.5pt; font-family: Arial, sans-serif; color: #64748B; display: block; margin-top: 2px; text-align: center;">{{companySsm}}</span>
+        </div>
       </td>
-     </tr>
+
+      <!-- Contact Details & Action Column -->
+      <td style="padding-left: 18px; vertical-align: top;" valign="top">
+        <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
+          <tbody>
+            <tr>
+              <td style="font-size: 9pt; font-family: Arial, Helvetica, sans-serif; color: #334155; line-height: 18px;">
+                <span style="color: #022057; font-weight: bold;">Direct:</span> <a href="tel:{{mobilePhoneClean}}" style="text-decoration: none; color: #334155;">{{mobilePhone}}</a><br>
+                <span style="color: #022057; font-weight: bold;">Office:</span> <a href="tel:{{officePhoneClean}}" style="text-decoration: none; color: #334155;">{{officePhone}}</a><br>
+                <span style="color: #022057; font-weight: bold;">Email:</span> <a href="mailto:{{email}}" style="text-decoration: none; color: #043388; font-weight: 500;">{{email}}</a><br>
+                <span style="color: #022057; font-weight: bold;">Location:</span> <span style="color: #64748B;">{{address}}</span>
+              </td>
+            </tr>
+
+            <!-- Booking Action Button (Optional) -->
+            {{bookingCtaHtml}}
+
+            <!-- Social Media Icons Row -->
+            <tr>
+              <td style="padding-top: 10px; vertical-align: middle;">
+                {{socialIcons}}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+
+    <!-- Spacer -->
+    <tr>
+      <td colspan="2" style="height: 14px; font-size: 1px; line-height: 1px;">&nbsp;</td>
+    </tr>
+
+    <!-- Banner (Optional) -->
+    {{bannerHtml}}
+
+    <!-- Confidentiality Disclaimer -->
+    <tr>
+      <td colspan="2" style="padding-top: 12px; line-height: 12px; font-size: 6.5pt; color: #94A3B8; font-family: Arial, Helvetica, sans-serif; text-align: justify;">
+        {{disclaimer}}
+      </td>
+    </tr>
   </tbody>
-  </table>
- </td></tr> 
- 
- <tr>
-	<td colspan="2" style="font-size:1px; height:15px;line-height:1px">&nbsp;</td>
-  </tr>
-  
-	<tr>
-		<td colspan="2" style="padding-top:15px; border-top:1px dotted #000">
-			<a href="http://{{website}}" target="_blank" rel="noopener"><img src="{{bannerUrl}}" alt="Banner" style="max-width:528px; height:auto; border:0;" border="0"></a>
-			
-		</td>
-	</tr>
-		 
- <tr>
-	<td colspan="2" style="padding-top:15px; line-height:13px; font-size: 7pt; color: #959595; font-family: Arial, sans-serif;">{{disclaimer}}</td>
-  </tr>
-	 
-</tbody>
 </table>
 
 </BODY>

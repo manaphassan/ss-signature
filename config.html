@@ -20,22 +20,22 @@
             --primary-light: #21A1F7;
             --accent: #6DC6EC;
             --secondary: #BD9A73;
-            --bg-dark: #000000;
-            --bg-card: #3C3C3B;
-            --bg-input: #575756;
-            --text-primary: #ffffff;
-            --text-secondary: #CCCCCC;
-            --border: #666666;
-            --success: #21A1F7;
+            --bg-dark: #0B1120;
+            --bg-card: #111C35;
+            --bg-input: #131F3B;
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+            --border: #1E3156;
+            --success: #10B981;
         }
 
         [data-theme="light"] {
-            --bg-dark: #ffffff;
-            --bg-card: #ffffff;
-            --bg-input: #CCCCCC;
-            --text-primary: #000000;
-            --text-secondary: #666666;
-            --border: #999999;
+            --bg-dark: #F8FAFC;
+            --bg-card: #FFFFFF;
+            --bg-input: #FFFFFF;
+            --text-primary: #0F172A;
+            --text-secondary: #475569;
+            --border: #E2E8F0;
         }
 
         body {
@@ -294,7 +294,10 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>⚙️ Configuration Manager</h1>
+            <div style="display: inline-flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 12px; background: linear-gradient(135deg, #022057 0%, #043388 100%); box-shadow: 0 4px 14px rgba(4, 51, 136, 0.35); padding: 5px; margin-bottom: 0.75rem;">
+                <img src="assets/img/ss_icon_dark.svg" alt="SuamiSihat" style="width: 100%; height: 100%; object-fit: contain; display: block;">
+            </div>
+            <h1>Configuration Manager</h1>
             <p>Manage offices, social media, branding, and default values</p>
         </div>
 
@@ -380,8 +383,20 @@
                             <input type="text" class="form-input" value="${office.id}" onchange="updateOffice(${index}, 'id', this.value)">
                         </div>
                         <div class="form-group">
-                            <label class="form-label">Name</label>
-                            <input type="text" class="form-input" value="${office.name}" onchange="updateOffice(${index}, 'name', this.value)">
+                            <label class="form-label">Name (Full Entity)</label>
+                            <input type="text" class="form-input" value="${office.name || ''}" onchange="updateOffice(${index}, 'name', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Short Name</label>
+                            <input type="text" class="form-input" value="${office.shortName || ''}" onchange="updateOffice(${index}, 'shortName', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">SSM Registration No.</label>
+                            <input type="text" class="form-input" value="${office.ssm || ''}" onchange="updateOffice(${index}, 'ssm', this.value)">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Company Domain</label>
+                            <input type="text" class="form-input" value="${office.companyDomain || ''}" onchange="updateOffice(${index}, 'companyDomain', this.value)">
                         </div>
                         <div class="form-group full-width">
                             <label class="form-label">Address</label>
@@ -485,11 +500,14 @@
         function addOffice() {
             const newOffice = {
                 id: 'NEW',
-                name: 'New Office',
+                name: 'New Office Sdn Bhd',
+                shortName: 'SS New',
+                ssm: '',
                 address: '',
-                phone: '',
-                logoUrl: '',
-                logoLightUrl: ''
+                phone: '+60 3 6044 1878',
+                logoUrl: 'assets/img/company/logo_ssc_secondary_dark.svg',
+                logoLightUrl: 'assets/img/company/logo_ssc_secondary_light.svg',
+                companyDomain: 'suamisihat.clinic'
             };
             configData.offices.push(newOffice);
             renderOffices();

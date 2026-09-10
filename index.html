@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Email Signature Generator</title>
+    <title>SuamiSihat — Official Email Signature Generator</title>
+    <meta name="description" content="Corporate email signature generator for SuamiSihat Group companies adhering to clinical 60:30:10 brand standards.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -11,672 +12,783 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>SS Signature Generator</h1>
-            <p>Create professional email signatures in seconds</p>
-            <p style="margin-top: 0.5rem;"><a href="config.html" style="color: var(--primary-light); text-decoration: none; font-size: 0.875rem;">⚙️ Configuration Manager</a></p>
-        </div>
-
-        <!-- Form Section (Top Row) -->
-        <div class="form-section">
-            <h2 class="section-title">Personal Information</h2>
-            
-            <form id="signatureForm">
-                <div class="form-grid">
-                    <div class="form-group">
-                        <label class="form-label" for="firstName">First Name</label>
-                        <input type="text" id="firstName" class="form-input" placeholder="John" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="lastName">Last Name</label>
-                        <input type="text" id="lastName" class="form-input" placeholder="Doe" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="position">Position</label>
-                        <input type="text" id="position" class="form-input" placeholder="Senior Developer" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="email">Email</label>
-                        <input type="email" id="email" class="form-input" placeholder="john.doe@example.com" required>
-                        <div class="error-message" id="emailError">Please enter a valid email address</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="phone">Mobile Phone</label>
-                        <input type="tel" id="phone" class="form-input" placeholder="+60 12-345 6789" required>
-                        <div class="error-message" id="phoneError">Only numbers, +, -, and spaces allowed</div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label" for="office">Office Location</label>
-                        <select id="office" class="form-select" required>
-                            <option value="">Select Office</option>
-                        </select>
-                    </div>
+        <!-- Header & Brand Identity Bar -->
+        <header class="header">
+            <div class="brand-wrapper">
+                <div class="brand-logo-icon" aria-label="SuamiSihat">
+                    <img src="assets/img/ss_icon_dark.svg" alt="SuamiSihat Logo" class="brand-logo-img" id="headerBrandLogo">
                 </div>
+                <div class="brand-titles">
+                    <h1>
+                        SuamiSihat Signatures
+                        <span class="brand-badge">Official Standard</span>
+                    </h1>
+                    <p>Clinical Men's Health & Corporate Group — Multi-Client Email Signature Workspace</p>
+                </div>
+            </div>
 
-                <div class="button-group">
-                    <button type="button" class="btn btn-generate" onclick="generateSignature()">
-                        Generate
-                    </button>
-                    <div class="copy-btn-group">
-                        <button type="button" class="btn btn-copy btn-copy-main" onclick="copySignature()">
-                            <span id="copyBtnText">Copy as Rich Text</span>
-                        </button>
-                        <button type="button" class="btn-copy-dropdown" onclick="toggleCopyDropdown()">
-                            ▼
-                        </button>
-                        <div class="dropdown-menu" id="copyDropdown">
-                            <div class="dropdown-item active" onclick="setCopyMode('rich')">
-                                <span>📋</span> Copy as Rich Text
+            <div class="header-actions">
+                <a href="config.html" class="header-link-btn" title="Manage Offices, Socials & Branding">
+                    <span>⚙️</span> Configuration Manager
+                </a>
+            </div>
+        </header>
+
+        <!-- Main Workspace (Two-Column Split Screen) -->
+        <main class="workspace-grid">
+            <!-- Left Column: Interactive Form Editor -->
+            <section class="editor-column" aria-label="Signature Details Form">
+                <!-- Section 1: Professional Identity -->
+                <div class="card-section">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <span class="step-badge">1</span>
+                            Personal & Professional Identity
+                        </h2>
+                    </div>
+
+                    <form id="signatureForm" onsubmit="event.preventDefault();">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="firstName">First Name</label>
+                                <input type="text" id="firstName" class="form-input" placeholder="e.g. Dr. Amin" required>
                             </div>
-                            <div class="dropdown-item" onclick="setCopyMode('html')">
-                                <span>🔤</span> Copy as HTML
+
+                            <div class="form-group">
+                                <label class="form-label" for="lastName">Last Name</label>
+                                <input type="text" id="lastName" class="form-input" placeholder="e.g. Radzi" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="credentials">
+                                    Credentials / Post-nominals
+                                    <span class="label-tag">Optional</span>
+                                </label>
+                                <input type="text" id="credentials" class="form-input" placeholder="e.g. MD, MMC 48291">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="position">Job Designation</label>
+                                <input type="text" id="position" class="form-input" placeholder="e.g. Consultant Physician" required>
+                            </div>
+
+                            <div class="form-group full-width">
+                                <label class="form-label" for="department">Department / Practice Area</label>
+                                <select id="department" class="form-select">
+                                    <option value="">Select Department (or None)</option>
+                                </select>
                             </div>
                         </div>
-                    </div>
-                    <button type="reset" class="btn btn-reset" onclick="resetForm()">
-                        Reset
-                    </button>
+                    </form>
                 </div>
-            </form>
-        </div>
 
-        <!-- Preview Section (Bottom Row) -->
-        <div class="preview-section">
-            <h2 class="section-title">Signature Preview</h2>
-            <div class="preview-content" id="preview">
-                <p style="color: #666; text-align: center; padding: 2rem;">
-                    Fill in the form above and click "Generate" to see your signature
-                </p>
-            </div>
-            
-            <!-- Manual Copy Instructions -->
-            <div style="margin-top: 1rem; padding: 1rem; background: rgba(33, 161, 247, 0.1); border: 1px solid var(--primary-light); border-radius: 0.75rem;">
-                <p style="color: var(--text-secondary); font-size: 0.875rem; margin: 0; line-height: 1.5;">
-                    💡 <strong>Tip:</strong> If the Copy button doesn't work, click "Select All" below, then press <strong>Ctrl+C</strong> (or Cmd+C on Mac) to copy with formatting, then paste into Gmail.
-                </p>
-            </div>
-            
-            <!-- Select All Button -->
-            <button class="btn" style="margin-top: 1rem; background: linear-gradient(135deg, var(--accent) 0%, var(--primary-light) 100%); color: white; box-shadow: 0 10px 30px rgba(109, 198, 236, 0.3);" onclick="selectSignature()">
-                Select All for Manual Copy
-            </button>
-            
-            <div class="success-message" id="successMessage">
-                ✓ Signature HTML copied to clipboard!
-            </div>
-        </div>
+                <!-- Section 2: Company & Contact Info -->
+                <div class="card-section">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <span class="step-badge">2</span>
+                            Office & Contact Information
+                        </h2>
+                    </div>
+
+                    <div class="form-grid">
+                        <div class="form-group full-width">
+                            <label class="form-label" for="office">Subsidiary / Office Entity</label>
+                            <select id="office" class="form-select" required>
+                                <!-- Populated dynamically from config.js -->
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="email">Work Email</label>
+                            <input type="email" id="email" class="form-input" placeholder="user@suamisihat.clinic" required>
+                            <div class="error-message" id="emailError">Please enter a valid work email</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="phone">Direct Mobile / WhatsApp</label>
+                            <input type="tel" id="phone" class="form-input" placeholder="+60 12-345 6789" required>
+                            <div class="error-message" id="phoneError">Numbers and +, -, spaces only</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Section 3: Signature Layout & Conversion Options -->
+                <div class="card-section">
+                    <div class="section-header">
+                        <h2 class="section-title">
+                            <span class="step-badge">3</span>
+                            Design Layout & Features
+                        </h2>
+                    </div>
+
+                    <!-- Template Preset Selector -->
+                    <label class="form-label" style="margin-bottom: 0.6rem;">Select Signature Template</label>
+                    <div class="template-selector" role="radiogroup" aria-label="Signature template style">
+                        <button type="button" class="template-pill active" data-template="executive" onclick="setTemplateStyle('executive')">
+                            <span>🏛️ Executive</span>
+                            <small style="font-size:0.65rem; color:var(--text-muted);">Authoritative & Balanced</small>
+                        </button>
+                        <button type="button" class="template-pill" data-template="horizontal" onclick="setTemplateStyle('horizontal')">
+                            <span>⚖️ Horizontal</span>
+                            <small style="font-size:0.65rem; color:var(--text-muted);">Side-by-side Divider</small>
+                        </button>
+                        <button type="button" class="template-pill" data-template="compact" onclick="setTemplateStyle('compact')">
+                            <span>⚡ Compact</span>
+                            <small style="font-size:0.65rem; color:var(--text-muted);">Slim for Fast Replies</small>
+                        </button>
+                    </div>
+
+                    <!-- Toggle: Clinic Consultation CTA Button -->
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <span class="toggle-title">📅 Clinic Consultation Booking CTA</span>
+                            <span class="toggle-desc">Embeds high-converting booking button in signature</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="showBookingCta" checked onchange="updateLiveSignature()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- Toggle: Official Campaign Banner -->
+                    <div class="toggle-row">
+                        <div class="toggle-info">
+                            <span class="toggle-title">🖼️ Official Campaign Banner</span>
+                            <span class="toggle-desc">Appends bottom health awareness visual graphic</span>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="showBanner" checked onchange="updateLiveSignature()">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Right Column: Sticky Live Preview & Export Panel -->
+            <section class="preview-column" aria-label="Signature Live Preview & Export">
+                <div class="preview-card">
+                    <!-- Simulator Toolbar -->
+                    <div class="preview-toolbar">
+                        <div class="sim-tabs" role="tablist">
+                            <button type="button" class="sim-tab-btn active" id="simLightBtn" onclick="setSimulatorMode('light')">
+                                ☀️ Light Client
+                            </button>
+                            <button type="button" class="sim-tab-btn" id="simDarkBtn" onclick="setSimulatorMode('dark')">
+                                🌙 Dark Client
+                            </button>
+                            <button type="button" class="sim-tab-btn" id="simMobileBtn" onclick="setSimulatorMode('mobile')">
+                                📱 Mobile View
+                            </button>
+                        </div>
+
+                        <div class="sim-live-indicator">
+                            <span class="sim-live-dot"></span>
+                            Live Preview
+                        </div>
+                    </div>
+
+                    <!-- Canvas Viewport Frame -->
+                    <div class="preview-canvas-wrapper" id="previewCanvasWrapper" data-sim="light">
+                        <div id="signaturePreview">
+                            <!-- Rendered in real-time by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons-group">
+                        <button type="button" class="btn btn-primary" onclick="copySignatureRichText()" id="copyPrimaryBtn">
+                            <span>📋</span> Copy Signature for Email
+                        </button>
+                        <button type="button" class="btn btn-secondary" onclick="copySignatureHTML()" id="copyHtmlBtn">
+                            <span>🔤</span> Copy HTML
+                        </button>
+                        <button type="button" class="btn btn-ghost" onclick="resetFormToDefaults()" title="Reset to default brand values">
+                            <span>🔄</span>
+                        </button>
+                    </div>
+
+                    <!-- Toast Confirmation Feedback -->
+                    <div class="toast-feedback" id="toastFeedback">
+                        <span id="toastIcon">✓</span>
+                        <span id="toastMessage">Signature copied to clipboard! Ready to paste (Ctrl+V) into Gmail or Outlook.</span>
+                    </div>
+                </div>
+
+                <!-- Integration Guidance Guide -->
+                <div class="guide-card">
+                    <strong>💡 How to Paste in Gmail / Outlook:</strong>
+                    <ol style="margin-left: 1.25rem; margin-top: 0.4rem; padding-left: 0;">
+                        <li>Click <strong>"Copy Signature for Email"</strong> above.</li>
+                        <li>Open your email client settings (e.g. <em>Gmail Settings → General → Signature</em>).</li>
+                        <li>Create or edit your signature, click in the box, and press <strong>Ctrl+V</strong> (or <strong>Cmd+V</strong> on Mac).</li>
+                        <li>Click <strong>Save Changes</strong> at the bottom of the page.</li>
+                    </ol>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <!-- Theme Toggle Button -->
-    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-        <!-- Moon Icon (for dark mode) -->
-        <svg class="theme-icon moon-icon active" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
-        <!-- Sun Icon (for light mode) -->
-        <svg class="theme-icon sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-            <circle cx="12" cy="12" r="5"/>
-            <line x1="12" y1="1" x2="12" y2="3"/>
-            <line x1="12" y1="21" x2="12" y2="23"/>
-            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-            <line x1="1" y1="12" x2="3" y2="12"/>
-            <line x1="21" y1="12" x2="23" y2="12"/>
-            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-    </button>
+    <!-- Floating Action Buttons (Theme Toggle + Help) -->
+    <aside class="floating-actions" aria-label="System tools">
+        <button class="floating-btn" onclick="toggleHelpModal()" title="Help & Integration Guide" aria-label="Help">
+            ❓
+        </button>
+        <button class="floating-btn" onclick="toggleTheme()" title="Toggle Light / Dark Mode" aria-label="Toggle Theme">
+            <!-- Moon Icon -->
+            <svg class="theme-icon moon-icon" viewBox="0 0 24 24">
+                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+            <!-- Sun Icon -->
+            <svg class="theme-icon sun-icon" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="5"/>
+                <line x1="12" y1="1" x2="12" y2="3"/>
+                <line x1="12" y1="21" x2="12" y2="23"/>
+                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                <line x1="1" y1="12" x2="3" y2="12"/>
+                <line x1="21" y1="12" x2="23" y2="12"/>
+                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+        </button>
+    </aside>
 
-    <!-- Help Button -->
-    <button class="help-button" onclick="toggleHelpModal()" aria-label="Help">
-        ❓
-    </button>
-
-    <!-- Help Modal -->
+    <!-- Help Modal Overlay -->
     <div class="help-modal-overlay" id="helpModal" onclick="closeHelpModal(event)">
         <div class="help-modal" onclick="event.stopPropagation()">
-            <button class="help-close-btn" onclick="toggleHelpModal()">×</button>
-            
-            <h2>📧 How to Use Your Email Signature in Gmail</h2>
-            
-            <h3>Step 1: Generate Your Signature</h3>
-            <ol>
-                <li>Fill in your information in the form above</li>
-                <li>Select your office location</li>
-                <li>Click <strong>"Generate"</strong> button</li>
-            </ol>
+            <button class="help-close-btn" onclick="toggleHelpModal()" aria-label="Close modal">×</button>
+            <h2 style="color: var(--text-primary); margin-bottom: 0.75rem;">📧 Official Signature Guide & Deliverability</h2>
+            <p style="color: var(--text-secondary); margin-bottom: 1rem;">
+                This generator creates high-fidelity email signatures tailored specifically for the SuamiSihat brand identity and verified across Gmail, Outlook 365, Apple Mail, and mobile inboxes.
+            </p>
 
-            <h3>Step 2: Copy the Signature</h3>
-            <p>Choose one of these methods:</p>
-            <ul>
-                <li><strong>Method A:</strong> Click <code>📋 Copy</code> button (automatic)</li>
-                <li><strong>Method B:</strong> Click <code>👆 Select All for Manual Copy</code>, then press <code>Ctrl+C</code></li>
+            <h3 style="color: var(--ss-azure); font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem;">✨ Best Practice Checklist</h3>
+            <ul style="margin-left: 1.25rem; color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+                <li><strong>Always use standard paste (Ctrl+V):</strong> Do not use "Paste as plain text" (Ctrl+Shift+V), otherwise the formatting, layout, and colors will be stripped.</li>
+                <li><strong>Dark Mode Verification:</strong> Use the 🌙 Dark Client toggle above to inspect how recipient devices running dark mode will display your signature.</li>
+                <li><strong>Booking CTA Button:</strong> For doctors, consultants, and patient care managers, keep the "Clinic Consultation Booking CTA" enabled to drive direct patient bookings.</li>
             </ul>
 
-            <h3>Step 3: Paste into Gmail</h3>
-            <ol>
-                <li>Go to <a href="https://mail.google.com/mail/u/0/#settings/general" target="_blank" style="color: var(--primary-light);">Gmail Settings</a></li>
-                <li>Scroll down to the <strong>"Signature"</strong> section</li>
-                <li>Click <strong>"Create new"</strong> or select existing signature</li>
-                <li>Click in the signature editor box</li>
-                <li>Press <code>Ctrl+V</code> (Windows) or <code>Cmd+V</code> (Mac)</li>
-                <li>Your formatted signature appears with logo and colors!</li>
-                <li>Click <strong>"Save Changes"</strong> at the bottom</li>
-            </ol>
-
-            <h3>💡 Important Tips</h3>
-            <ul>
-                <li>Use regular paste (<code>Ctrl+V</code>), NOT "Paste as plain text"</li>
-                <li>The signature includes your office-specific logo</li>
-                <li>All SS Health brand colors are preserved</li>
-                <li>Make sure images (logo, banner) are accessible</li>
+            <h3 style="color: var(--ss-azure); font-size: 1rem; margin-top: 1rem; margin-bottom: 0.5rem;">❓ Troubleshooting Common Issues</h3>
+            <ul style="margin-left: 1.25rem; color: var(--text-secondary); font-size: 0.875rem; line-height: 1.6;">
+                <li><strong>Signature appears small or broken in Outlook:</strong> Outlook Desktop uses Microsoft Word's HTML engine. The "Copy Signature for Email" rich-text clipboard command formats tables specifically for Microsoft Office paste handlers.</li>
+                <li><strong>Company Logo doesn't appear:</strong> Ensure your email client does not block external images by default in preview.</li>
             </ul>
 
-            <h3>🔧 Troubleshooting</h3>
-            <p><strong>If signature pastes as plain text:</strong></p>
-            <ul>
-                <li>Try Method B (Select All + Ctrl+C)</li>
-                <li>Make sure you're using a modern browser (Chrome, Edge, Firefox)</li>
-                <li>Paste directly in Gmail signature editor, not compose window</li>
-            </ul>
-
-            <p><strong>Need help?</strong> Contact: <a href="mailto:branding@suamisihat.com" style="color: var(--primary-light);">branding@suamisihat.com</a></p>
+            <div style="margin-top: 1.5rem; padding: 0.75rem 1rem; background: var(--bg-surface-subtle); border-radius: 0.5rem; font-size: 0.8rem; color: var(--text-muted);">
+                Brand & IT Support: <a href="mailto:branding@suamisihat.clinic" style="color: var(--ss-azure);">branding@suamisihat.clinic</a>
+            </div>
         </div>
     </div>
 
-    <!-- Load Configuration -->
+    <!-- Scripts -->
     <script src="assets/js/config.js"></script>
-
-    <!-- Main Application Script -->
     <script>
-        let currentSignatureHTML = '';
-        let selectedOffice = null;
-        let copyMode = 'rich'; // Default to rich text
+        // State variables
+        let currentTemplateStyle = CONFIG.defaults.templateStyle || 'executive';
+        let currentSimulatorMode = 'light';
+        let currentGeneratedHTML = '';
 
-        // Toggle copy dropdown menu
-        function toggleCopyDropdown() {
-            const dropdown = document.getElementById('copyDropdown');
-            dropdown.classList.toggle('show');
-        }
-
-        // Close dropdown when clicking outside
-        document.addEventListener('click', function(event) {
-            const dropdown = document.getElementById('copyDropdown');
-            const copyBtnGroup = event.target.closest('.copy-btn-group');
-            
-            if (!copyBtnGroup && dropdown) {
-                dropdown.classList.remove('show');
-            }
+        // Initialize application on DOM ready
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeTheme();
+            populateFormOptions();
+            bindLiveEventListeners();
+            updateLiveSignature();
         });
 
-        // Set copy mode
-        function setCopyMode(mode) {
-            copyMode = mode;
-            const copyBtnText = document.getElementById('copyBtnText');
-            const dropdownItems = document.querySelectorAll('.dropdown-item');
-            
-            // Update button text
-            if (mode === 'rich') {
-                copyBtnText.textContent = 'Copy as Rich Text';
-            } else {
-                copyBtnText.textContent = 'Copy as HTML';
-            }
-            
-            // Update active state in dropdown
-            dropdownItems.forEach(item => {
-                item.classList.remove('active');
-            });
-            
-            if (mode === 'rich') {
-                dropdownItems[0].classList.add('active');
-            } else {
-                dropdownItems[1].classList.add('active');
-            }
-            
-            // Close dropdown
-            document.getElementById('copyDropdown').classList.remove('show');
-        }
-
-        // Initialize the form with config data
-        function initializeForm() {
-            // Populate office dropdown
+        // Populate dropdown options from CONFIG
+        function populateFormOptions() {
+            // Populate Offices
             const officeSelect = document.getElementById('office');
+            officeSelect.innerHTML = '';
             CONFIG.offices.forEach(office => {
-                const option = document.createElement('option');
-                option.value = office.id;
-                option.textContent = office.name;
-                officeSelect.appendChild(option);
+                const opt = document.createElement('option');
+                opt.value = office.id;
+                opt.textContent = `${office.name} (${office.shortName})`;
+                officeSelect.appendChild(opt);
             });
 
-            // Set default values
-            document.getElementById('firstName').value = CONFIG.defaults.firstName;
-            document.getElementById('lastName').value = CONFIG.defaults.lastName;
-            document.getElementById('position').value = CONFIG.defaults.position;
-            document.getElementById('email').value = CONFIG.defaults.email;
-            document.getElementById('phone').value = CONFIG.defaults.phone;
-            
-            // Select first office by default
+            // Populate Departments
+            const deptSelect = document.getElementById('department');
+            deptSelect.innerHTML = '<option value="">No Department Header</option>';
+            CONFIG.departments.forEach(dept => {
+                const opt = document.createElement('option');
+                opt.value = dept;
+                opt.textContent = dept;
+                deptSelect.appendChild(opt);
+            });
+
+            // Set initial defaults
+            document.getElementById('firstName').value = CONFIG.defaults.firstName || '';
+            document.getElementById('lastName').value = CONFIG.defaults.lastName || '';
+            document.getElementById('credentials').value = CONFIG.defaults.credentials || '';
+            document.getElementById('position').value = CONFIG.defaults.position || '';
+            document.getElementById('department').value = CONFIG.defaults.department || '';
+            document.getElementById('email').value = CONFIG.defaults.email || '';
+            document.getElementById('phone').value = CONFIG.defaults.phone || '';
+            document.getElementById('showBookingCta').checked = CONFIG.defaults.showBookingCta !== false;
+            document.getElementById('showBanner').checked = CONFIG.defaults.showBanner !== false;
+
             if (CONFIG.offices.length > 0) {
                 officeSelect.value = CONFIG.offices[0].id;
             }
-
-            // Add validation listeners
-            setupValidation();
         }
 
-        // Email validation
-        function validateEmail(email) {
-            // RFC 5322 simplified email regex
-            const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/;
-            return emailRegex.test(email);
-        }
+        // Bind real-time reactive event listeners to all form inputs
+        function bindLiveEventListeners() {
+            const inputs = [
+                'firstName', 'lastName', 'credentials', 'position',
+                'department', 'office', 'email', 'phone'
+            ];
 
-        // Phone validation - only numbers, +, -, and spaces
-        function validatePhone(phone) {
-            const phoneRegex = /^[\d\s+\-]+$/;
-            return phoneRegex.test(phone) && phone.trim().length > 0;
-        }
+            inputs.forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.addEventListener('input', updateLiveSignature);
+                    el.addEventListener('change', updateLiveSignature);
+                }
+            });
 
-        // Setup real-time validation
-        function setupValidation() {
+            // Email format validation and auto-cleaning
             const emailInput = document.getElementById('email');
-            const phoneInput = document.getElementById('phone');
             const emailError = document.getElementById('emailError');
-            const phoneError = document.getElementById('phoneError');
-
-            // Email validation on input
-            emailInput.addEventListener('input', function() {
-                const email = this.value.trim();
-                if (email.length === 0) {
-                    this.classList.remove('invalid', 'valid');
-                    emailError.classList.remove('show');
-                } else if (validateEmail(email)) {
-                    this.classList.remove('invalid');
-                    this.classList.add('valid');
-                    emailError.classList.remove('show');
-                } else {
-                    this.classList.remove('valid');
-                    this.classList.add('invalid');
-                    emailError.classList.add('show');
+            emailInput.addEventListener('input', () => {
+                const val = emailInput.value.trim();
+                const isValid = val.length === 0 || /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val);
+                emailInput.classList.toggle('invalid', !isValid);
+                emailInput.classList.toggle('valid', isValid && val.length > 0);
+                emailError.classList.toggle('show', !isValid);
+            });
+            emailInput.addEventListener('blur', () => {
+                if (emailInput.value.trim()) {
+                    emailInput.value = sanitizeEmail(emailInput.value);
+                    updateLiveSignature();
                 }
             });
 
-            // Phone validation on input - prevent invalid characters
-            phoneInput.addEventListener('input', function() {
-                const phone = this.value;
-                
-                // Remove invalid characters in real-time
-                const cleanedPhone = phone.replace(/[^\d\s+\-]/g, '');
-                if (phone !== cleanedPhone) {
-                    this.value = cleanedPhone;
-                }
-
-                if (cleanedPhone.length === 0) {
-                    this.classList.remove('invalid', 'valid');
-                    phoneError.classList.remove('show');
-                } else if (validatePhone(cleanedPhone)) {
-                    this.classList.remove('invalid');
-                    this.classList.add('valid');
-                    phoneError.classList.remove('show');
-                } else {
-                    this.classList.remove('valid');
-                    this.classList.add('invalid');
-                    phoneError.classList.add('show');
+            // Phone format cleaning & validation
+            const phoneInput = document.getElementById('phone');
+            phoneInput.addEventListener('input', () => {
+                const cleaned = phoneInput.value.replace(/[^\d\s+\-()]/g, '');
+                if (phoneInput.value !== cleaned) {
+                    phoneInput.value = cleaned;
                 }
             });
-
-            // Prevent paste of invalid characters in phone
-            phoneInput.addEventListener('paste', function(e) {
-                e.preventDefault();
-                const pastedText = (e.clipboardData || window.clipboardData).getData('text');
-                const cleanedText = pastedText.replace(/[^\d\s+\-]/g, '');
-                document.execCommand('insertText', false, cleanedText);
+            phoneInput.addEventListener('blur', () => {
+                if (phoneInput.value.trim()) {
+                    phoneInput.value = formatPhoneDisplay(phoneInput.value);
+                    updateLiveSignature();
+                }
             });
         }
 
-        // Generate signature
-        function generateSignature() {
-            const firstName = document.getElementById('firstName').value.trim();
-            const lastName = document.getElementById('lastName').value.trim();
-            const position = document.getElementById('position').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const phone = document.getElementById('phone').value.trim();
+        // Sanitization & Formatting Helpers
+        function sanitizeEmail(val) {
+            if (!val) return 'info@suamisihat.clinic';
+            let clean = val.trim().toLowerCase().replace(/^[<(\"']+|[>) \"']+$/g, '').replace(/\s+/g, '');
+            return clean || 'info@suamisihat.clinic';
+        }
+
+        function formatPhoneDisplay(val) {
+            if (!val) return '+60 12-345 6789';
+            let raw = val.trim();
+            let digits = raw.replace(/\D/g, '');
+            if (digits.startsWith('60')) digits = digits.slice(2);
+            else if (digits.startsWith('0')) digits = digits.slice(1);
+
+            // Malaysian mobile numbers
+            if (digits.startsWith('11') && digits.length >= 10) {
+                return '+60 11-' + digits.slice(2, 6) + ' ' + digits.slice(6, 10);
+            } else if (digits.startsWith('1') && digits.length >= 8) {
+                return '+60 ' + digits.slice(0, 2) + '-' + digits.slice(2, 5) + ' ' + digits.slice(5, 9);
+            } else if ((digits.startsWith('3') || digits.startsWith('7') || digits.startsWith('4') || digits.startsWith('5') || digits.startsWith('6') || digits.startsWith('8') || digits.startsWith('9')) && digits.length >= 7) {
+                return '+60 ' + digits.slice(0, 1) + '-' + digits.slice(1, 5) + ' ' + digits.slice(5, 9);
+            }
+            return raw;
+        }
+
+        function cleanPhoneForTel(val) {
+            if (!val) return '+60123456789';
+            let digits = val.replace(/[^\d+]/g, '');
+            if (digits.startsWith('0')) digits = '+60' + digits.slice(1);
+            else if (!digits.startsWith('+') && digits.startsWith('60')) digits = '+' + digits;
+            else if (!digits.startsWith('+')) digits = '+60' + digits;
+            return digits;
+        }
+
+        // Switch template style (executive / horizontal / compact)
+        function setTemplateStyle(style) {
+            currentTemplateStyle = style;
+            document.querySelectorAll('.template-pill').forEach(pill => {
+                pill.classList.toggle('active', pill.getAttribute('data-template') === style);
+            });
+            updateLiveSignature();
+        }
+
+        // Switch simulator mode (light / dark / mobile)
+        function setSimulatorMode(mode) {
+            currentSimulatorMode = mode;
+            const canvasWrapper = document.getElementById('previewCanvasWrapper');
+            canvasWrapper.setAttribute('data-sim', mode);
+
+            document.getElementById('simLightBtn').classList.toggle('active', mode === 'light');
+            document.getElementById('simDarkBtn').classList.toggle('active', mode === 'dark');
+            document.getElementById('simMobileBtn').classList.toggle('active', mode === 'mobile');
+
+            updateLiveSignature();
+        }
+
+        // Build the signature HTML based on current state
+        function generateSignatureMarkup() {
+            const firstName = document.getElementById('firstName').value.trim() || 'Dr. Firstname';
+            const lastName = document.getElementById('lastName').value.trim() || 'Lastname';
+            const credentials = document.getElementById('credentials').value.trim();
+            const position = document.getElementById('position').value.trim() || 'Designation';
+            const department = document.getElementById('department').value.trim();
             const officeId = document.getElementById('office').value;
+            const rawEmail = document.getElementById('email').value;
+            const emailClean = sanitizeEmail(rawEmail);
+            const rawPhone = document.getElementById('phone').value;
+            const phoneDisplay = formatPhoneDisplay(rawPhone);
+            const phoneClean = cleanPhoneForTel(rawPhone);
 
-            // Validate required fields
-            if (!firstName || !lastName || !position || !email || !phone || !officeId) {
-                alert('Please fill in all required fields');
-                return;
-            }
+            const showBooking = document.getElementById('showBookingCta').checked;
+            const showBanner = document.getElementById('showBanner').checked;
 
-            // Validate email format
-            if (!validateEmail(email)) {
-                alert('Please enter a valid email address');
-                document.getElementById('email').focus();
-                return;
-            }
+            const selectedOffice = CONFIG.offices.find(o => o.id === officeId) || CONFIG.offices[0];
 
-            // Validate phone format
-            if (!validatePhone(phone)) {
-                alert('Please enter a valid phone number (only numbers, +, -, and spaces allowed)');
-                document.getElementById('phone').focus();
-                return;
-            }
+            // Official Websites: Automatic integration of both portals (no user input needed)
+            const clinicUrl = 'https://suamisihat.clinic';
+            const portalUrl = 'https://suamisihat.com.my';
+            const websitesHeaderHtml = `<a href="${clinicUrl}" target="_blank" rel="noopener" style="text-decoration: none; color: #043388; font-weight: 600;">suamisihat.clinic</a> <span style="color: #94A3B8;">|</span> <a href="${portalUrl}" target="_blank" rel="noopener" style="text-decoration: none; color: #043388; font-weight: 600;">suamisihat.com.my</a>`;
+            const websitesContactHtml = `<a href="${clinicUrl}" target="_blank" rel="noopener" style="text-decoration: none; color: #043388;">suamisihat.clinic</a> &nbsp;|&nbsp; <a href="${portalUrl}" target="_blank" rel="noopener" style="text-decoration: none; color: #043388;">suamisihat.com.my</a>`;
+            const primaryOfficeWebsite = (officeId === 'SSC' || officeId === 'SSW') ? clinicUrl : portalUrl;
 
-            // Get selected office data
-            selectedOffice = CONFIG.offices.find(office => office.id === officeId);
-            if (!selectedOffice) {
-                alert('Please select a valid office location');
-                return;
-            }
+            // Resolve logo based on theme and preview context
+            const isDarkSim = currentSimulatorMode === 'dark';
+            const logoSrc = isDarkSim ? selectedOffice.logoUrl : (selectedOffice.logoLightUrl || selectedOffice.logoUrl);
 
-            // Build social media icons HTML
-            let socialIconsHTML = '';
+            // Office Phone numbers (sanitized)
+            const officePhoneDisplay = formatPhoneDisplay(selectedOffice.phone);
+            const officePhoneClean = cleanPhoneForTel(selectedOffice.phone);
+            const ssmDisplay = selectedOffice.ssm || '';
+
+            // Credentials HTML badge
+            const credentialsHtml = credentials 
+                ? `&nbsp;<span style="display:inline-block; font-size: 8.5pt; font-family: Arial, sans-serif; font-weight: bold; color: #BD9A73; background: #FDF8F3; border: 1px solid #EAD8C7; padding: 1px 6px; border-radius: 4px; vertical-align: middle; margin-left: 4px;">${credentials}</span>` 
+                : '';
+
+            // Department HTML text
+            const departmentHtml = department 
+                ? `&nbsp;•&nbsp;<span style="color: #64748B;">${department}</span>` 
+                : '';
+
+            // Booking CTA Button HTML
+            const bookingCtaHtml = showBooking ? `
+            <tr>
+              <td style="padding-top: 10px; padding-bottom: 4px;">
+                <a href="${CONFIG.defaults.bookingUrl}" target="_blank" rel="noopener" style="display: inline-block; background-color: #043388; color: #FFFFFF; font-family: Arial, sans-serif; font-size: 8.5pt; font-weight: bold; text-decoration: none; padding: 6px 14px; border-radius: 4px; letter-spacing: 0.3px;">
+                  📅 ${CONFIG.defaults.bookingText}
+                </a>
+              </td>
+            </tr>` : '';
+
+            // Build Social Media HTML
+            let socialIconsHtml = '';
             Object.keys(CONFIG.socialMedia).forEach(key => {
-                const social = CONFIG.socialMedia[key];
-                socialIconsHTML += `<span><a href="${social.url}" target="_blank" rel="noopener">${social.icon}</a></span>&nbsp;&nbsp;&nbsp;&nbsp;`;
+                const s = CONFIG.socialMedia[key];
+                socialIconsHtml += `<a href="${s.url}" target="_blank" rel="noopener" style="display: inline-block; margin-right: 8px; text-decoration: none; vertical-align: middle;" title="${s.name}">${s.iconSvg}</a>`;
             });
 
-            // Helper function to get theme-appropriate logo for PREVIEW
-            function getLogoUrl(office) {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                if (currentTheme === 'light') {
-                    // Use light logo (for light backgrounds)
-                    return office.logoLightUrl || office.logoUrl;
-                } else {
-                    // Use dark logo (for dark backgrounds in preview)
-                    return office.logoUrl;
-                }
-            }
+            // Banner HTML
+            const bannerHtml = (showBanner && currentTemplateStyle !== 'compact') ? `
+            <tr>
+              <td colspan="2" style="padding-top: 14px; border-top: 1px solid #E2E8F0;">
+                <a href="${clinicUrl}" target="_blank" rel="noopener">
+                  <img src="${CONFIG.branding.bannerUrl}" alt="SuamiSihat Health Campaign" style="width: 100%; max-width: 500px; height: auto; border: 0; display: block; border-radius: 4px;" border="0">
+                </a>
+              </td>
+            </tr>` : '';
 
-            // Helper function to get logo for EMAIL (always light for white email backgrounds)
-            function getEmailLogoUrl(office) {
-                return office.logoLightUrl || office.logoUrl;
-            }
-
-            // Generate the signature HTML
-            currentSignatureHTML = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
-<HTML><HEAD><TITLE>Email Signature</TITLE>
-<META content="text/html; charset=utf-8" http-equiv="Content-Type">
-</HEAD>
-<BODY style="font-size: 10pt; font-family: Arial, sans-serif;">
-
-<table style="width: 430px; font-size: 11pt; font-family: Arial, sans-serif;" cellspacing="0" cellpadding="0" border="0">
-<tbody>
-
- <tr>
-\t<td colspan="2" style="border-bottom:1px dotted #000; padding-bottom:10px;">
-\t\t<strong><span style="font-size: 18pt; font-family: Arial, sans-serif; color:${CONFIG.branding.primaryColor};">${firstName} ${lastName}</span></strong>
-                <span><br></span>
-                <strong style="font-family: Arial, sans-serif; font-size:10pt; color:#000000;">${position}</strong>\t
-\t\t<strong><span><span> | </span><a href="http://${CONFIG.defaults.website}" target="_blank" rel="noopener" style="text-decoration:none;"><span style="font-size: 10pt; font-family: Arial, sans-serif; color:#000000;"> ${CONFIG.defaults.website}</span></a></span></strong>
-\t\t
-\t</td>
-  </tr>
-  
- <tr>
-\t<td colspan="2" style="font-size:1px; height:15px;line-height:1px">&nbsp;</td>
-  </tr>
-  
- <tr>
-  <td style="text-align:center; font-size: 10pt; font-family: Arial, sans-serif; width: 140px; vertical-align: top;" width="140" valign="top" align="center">
-\t\t<a href="http://${CONFIG.defaults.website}" target="_blank"><img alt="Logo" style="width:120px; height:auto; border:0;" src="${getEmailLogoUrl(selectedOffice)}" width="120" border="0"></a>
-\t\t   
-  </td>
-    
- <td style="padding-left:15px;" valign="top">
-  <table cellspacing="0" cellpadding="0" border="0">
+            // Layout 1: Executive (Default)
+            if (currentTemplateStyle === 'executive') {
+                return `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>SuamiSihat Email Signature</TITLE></HEAD>
+<BODY style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif;">
+<table style="width: 100%; max-width: 500px; font-size: 10pt; font-family: Arial, Helvetica, sans-serif; color: #334155; line-height: 1.4;" cellspacing="0" cellpadding="0" border="0">
   <tbody>
     <tr>
-      <td style="font-size: 9pt; font-family: Arial, sans-serif; vertical-align: top; line-height:15px;" valign="top">
-\t  
-\t\t<span><span style="color: #000000; font-family: Arial, sans-serif; font-size:12px"><strong>Office:</strong> ${selectedOffice.phone}<br></span></span>
-\t\t<span><span style="color: #000000; font-family: Arial, sans-serif; font-size:12px"><strong>Mobile:</strong> ${phone}<br></span></span>
-\t\t<span><span style="color: #000000; font-family: Arial, sans-serif; font-size:12px"><strong>Email:</strong> ${email}<br></span></span>
-\t\t
-\t\t<span>
-\t\t\t<span style="color: #000000; font-family: Arial, sans-serif; font-size:12px"><strong>Address: </strong></span>
-\t\t\t<span style="color: #000000; font-family: Arial, sans-serif; font-size:12px;">${selectedOffice.address}</span>
-\t\t</span>
+      <td colspan="2" style="padding-bottom: 12px; border-bottom: 2px solid #043388;">
+        <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
+          <tr>
+            <td style="vertical-align: middle;">
+              <span style="font-size: 16pt; font-weight: bold; font-family: Arial, Helvetica, sans-serif; color: #022057; letter-spacing: -0.2px;">${firstName} ${lastName}</span>
+              ${credentialsHtml}
+            </td>
+          </tr>
+          <tr>
+            <td style="padding-top: 4px; font-size: 9.5pt; font-family: Arial, Helvetica, sans-serif; color: #475569;">
+              <strong style="color: #043388;">${position}</strong>${departmentHtml}
+              <span style="color: #94A3B8;">&nbsp;|&nbsp;</span>
+              ${websitesHeaderHtml}
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+    <tr><td colspan="2" style="height: 14px; font-size: 1px; line-height: 1px;">&nbsp;</td></tr>
+    <tr>
+      <td style="width: 145px; max-width: 145px; vertical-align: top; padding-right: 18px; border-right: 1px solid #E2E8F0; text-align: center;" width="145" valign="top" align="center">
+        <a href="${primaryOfficeWebsite}" target="_blank" rel="noopener" style="display: inline-block; text-decoration: none;">
+          <img alt="${selectedOffice.name}" style="width: 115px; max-width: 115px; height: auto; border: 0; display: block; margin: 0 auto;" src="${logoSrc}" width="115" border="0">
+        </a>
+        <div style="margin-top: 8px; line-height: 1.35; text-align: center;">
+          <strong style="font-size: 7.5pt; font-family: Arial, sans-serif; color: #022057; display: block; line-height: 12px; text-align: center;">${selectedOffice.name}</strong>
+          <span style="font-size: 6.5pt; font-family: Arial, sans-serif; color: #64748B; display: block; margin-top: 2px; text-align: center;">${ssmDisplay}</span>
+        </div>
+      </td>
+      <td style="padding-left: 18px; vertical-align: top;" valign="top">
+        <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
+          <tbody>
+            <tr>
+              <td style="font-size: 9pt; font-family: Arial, Helvetica, sans-serif; color: #334155; line-height: 18px;">
+                <strong style="color: #022057;">Mobile:</strong> <a href="tel:${phoneClean}" style="text-decoration: none; color: #334155;">${phoneDisplay}</a><br>
+                <strong style="color: #022057;">Office:</strong> <a href="tel:${officePhoneClean}" style="text-decoration: none; color: #334155;">${officePhoneDisplay}</a><br>
+                <strong style="color: #022057;">Email:</strong> <a href="mailto:${emailClean}" style="text-decoration: none; color: #043388; font-weight: 500;">${emailClean}</a><br>
+                <strong style="color: #022057;">Websites:</strong> ${websitesContactHtml}<br>
+                <strong style="color: #022057;">Address:</strong> <span style="color: #64748B;">${selectedOffice.address}</span>
+              </td>
+            </tr>
+            ${bookingCtaHtml}
+            <tr><td style="padding-top: 10px;">${socialIconsHtml}</td></tr>
+          </tbody>
+        </table>
+      </td>
+    </tr>
+    <tr><td colspan="2" style="height: 12px; font-size: 1px; line-height: 1px;">&nbsp;</td></tr>
+    ${bannerHtml}
+    <tr>
+      <td colspan="2" style="padding-top: 12px; line-height: 12px; font-size: 6.5pt; color: #94A3B8; font-family: Arial, Helvetica, sans-serif; text-align: justify;">
+        ${CONFIG.disclaimer}
+      </td>
+    </tr>
+  </tbody>
+</table>
+</BODY></HTML>`;
+            }
 
+            // Layout 2: Modern Horizontal (Clean Column Split)
+            if (currentTemplateStyle === 'horizontal') {
+                return `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>SuamiSihat Email Signature</TITLE></HEAD>
+<BODY style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif;">
+<table style="width: 100%; max-width: 500px; font-size: 9.5pt; font-family: Arial, Helvetica, sans-serif; color: #334155;" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+    <tr>
+      <td style="width: 145px; max-width: 145px; vertical-align: middle; padding-right: 18px; border-right: 2px solid #043388; text-align: center;" width="145" valign="middle" align="center">
+        <a href="${primaryOfficeWebsite}" target="_blank" style="display: inline-block; text-decoration: none;">
+          <img alt="${selectedOffice.name}" style="width: 120px; max-width: 120px; height: auto; border: 0; display: block; margin: 0 auto;" src="${logoSrc}" width="120" border="0">
+        </a>
+        <div style="margin-top: 8px; line-height: 1.35; text-align: center;">
+          <strong style="font-size: 7.5pt; font-family: Arial, sans-serif; color: #022057; display: block; line-height: 12px; text-align: center;">${selectedOffice.name}</strong>
+          <span style="font-size: 6.5pt; font-family: Arial, sans-serif; color: #64748B; display: block; margin-top: 2px; text-align: center;">${ssmDisplay}</span>
+        </div>
+      </td>
+      <td style="padding-left: 18px; vertical-align: top;" valign="top">
+        <span style="font-size: 15pt; font-weight: bold; color: #022057;">${firstName} ${lastName}</span>
+        ${credentialsHtml}<br>
+        <strong style="color: #043388; font-size: 9.5pt;">${position}</strong>${departmentHtml}<br>
+        <span style="font-size: 8.5pt; color: #64748B;">
+          📞 <a href="tel:${phoneClean}" style="color: #334155; text-decoration: none;">${phoneDisplay}</a> &nbsp;|&nbsp; ✉️ <a href="mailto:${emailClean}" style="color: #043388; text-decoration: none;">${emailClean}</a><br>
+          🌐 ${websitesHeaderHtml}
+        </span>
+        ${bookingCtaHtml ? `<div style="margin-top: 6px;">${bookingCtaHtml}</div>` : ''}
+        <div style="margin-top: 8px;">${socialIconsHtml}</div>
+      </td>
+    </tr>
+    ${bannerHtml}
+    <tr>
+      <td colspan="2" style="padding-top: 10px; line-height: 11px; font-size: 6.5pt; color: #94A3B8;">
+        ${CONFIG.disclaimer}
+      </td>
+    </tr>
+  </tbody>
+</table>
+</BODY></HTML>`;
+            }
+
+            // Layout 3: Compact Minimal (Streamlined, no banner)
+            return `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML><HEAD><TITLE>SuamiSihat Email Signature</TITLE></HEAD>
+<BODY style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif;">
+<table style="width: 100%; max-width: 480px; font-size: 9pt; font-family: Arial, Helvetica, sans-serif; color: #334155; line-height: 1.35;" cellspacing="0" cellpadding="0" border="0">
+  <tbody>
+    <tr>
+      <td style="padding-bottom: 6px;">
+        <span style="font-size: 13pt; font-weight: bold; color: #022057;">${firstName} ${lastName}</span>
+        ${credentialsHtml}
+        <span style="color: #94A3B8;">&nbsp;|&nbsp;</span>
+        <strong style="color: #043388;">${position}</strong>
       </td>
     </tr>
     <tr>
-      <td style="vertical-align: bottom; padding-top:5px;" valign="bottom">
-        ${socialIconsHTML}
+      <td style="font-size: 8.5pt; color: #64748B; padding-bottom: 6px; border-bottom: 1px solid #E2E8F0;">
+        <strong style="color: #022057;">${selectedOffice.name}</strong> <span style="font-size: 7.5pt; color: #64748B;">(${ssmDisplay})</span><br>
+        📞 <a href="tel:${phoneClean}" style="color: #334155; text-decoration: none;">${phoneDisplay}</a> &bull; ✉️ <a href="mailto:${emailClean}" style="color: #043388; text-decoration: none;">${emailClean}</a><br>
+        🌐 <a href="${clinicUrl}" style="color: #043388; text-decoration: none;">suamisihat.clinic</a> &bull; <a href="${portalUrl}" style="color: #043388; text-decoration: none;">suamisihat.com.my</a>
       </td>
-     </tr>
+    </tr>
+    <tr>
+      <td style="padding-top: 6px;">
+        ${socialIconsHtml}
+      </td>
+    </tr>
   </tbody>
-  </table>
- </td></tr> 
- 
- <tr>
-\t<td colspan="2" style="font-size:1px; height:15px;line-height:1px">&nbsp;</td>
-  </tr>
-  
-\t<tr>
-\t\t<td colspan="2" style="padding-top:15px; border-top:1px dotted #000">
-\t\t\t<a href="http://${CONFIG.defaults.website}" target="_blank" rel="noopener"><img src="${CONFIG.branding.bannerUrl}" alt="Banner" style="max-width:528px; height:auto; border:0;" border="0"></a>
-\t\t\t
-\t\t</td>
-\t</tr>
-\t\t 
- <tr>
-\t<td colspan="2" style="padding-top:15px; line-height:13px; font-size: 7pt; color: #959595; font-family: Arial, sans-serif;">${CONFIG.disclaimer}</td>
-  </tr>
-\t 
-</tbody>
 </table>
-
-</BODY>
-</HTML>`;
-
-            // Create preview HTML with theme-aware logo (for display only)
-            const previewHTML = currentSignatureHTML.replace(
-                `src="${getEmailLogoUrl(selectedOffice)}"`,
-                `src="${getLogoUrl(selectedOffice)}"`
-            );
-
-            // Update preview with theme-aware version
-            document.getElementById('preview').innerHTML = previewHTML;
+</BODY></HTML>`;
         }
 
-        // Copy signature to clipboard (mode-aware)
-        function copySignature() {
-            if (!currentSignatureHTML) {
-                alert('Please generate a signature first by clicking the \"Generate\" button');
-                return;
-            }
-
-            if (copyMode === 'rich') {
-                copyAsRichText();
-            } else {
-                copyAsHTML();
+        // Re-render live signature in the preview viewport
+        function updateLiveSignature() {
+            currentGeneratedHTML = generateSignatureMarkup();
+            const previewContainer = document.getElementById('signaturePreview');
+            if (previewContainer) {
+                previewContainer.innerHTML = currentGeneratedHTML;
             }
         }
 
-        // Copy as Rich Text (formatted for email clients)
-        function copyAsRichText() {
-            try {
-                // Get the preview element that contains the rendered signature
-                const previewElement = document.getElementById('preview');
-                
-                // Create a temporary container
-                const tempContainer = document.createElement('div');
-                tempContainer.style.position = 'absolute';
-                tempContainer.style.left = '-9999px';
-                tempContainer.style.top = '0';
-                document.body.appendChild(tempContainer);
-                
-                // Clone the preview content into the temp container
-                tempContainer.innerHTML = previewElement.innerHTML;
-                
-                // Create a range and select the content
-                const range = document.createRange();
-                range.selectNodeContents(tempContainer);
-                
-                // Get the selection and add the range
-                const selection = window.getSelection();
-                selection.removeAllRanges();
-                selection.addRange(range);
-                
-                // Copy the selected content (this preserves formatting)
-                let successful = false;
+        // Modern 1-Click Copy as Rich Text with ClipboardItem & Fallback
+        async function copySignatureRichText() {
+            if (!currentGeneratedHTML) {
+                updateLiveSignature();
+            }
+
+            const previewEl = document.getElementById('signaturePreview');
+            let success = false;
+
+            // Strategy 1: Asynchronous Clipboard API with text/html and text/plain MIME types
+            if (navigator.clipboard && window.ClipboardItem) {
                 try {
-                    successful = document.execCommand('copy');
+                    const htmlBlob = new Blob([currentGeneratedHTML], { type: 'text/html' });
+                    const textBlob = new Blob([previewEl.innerText || previewEl.textContent], { type: 'text/plain' });
+                    await navigator.clipboard.write([
+                        new ClipboardItem({
+                            'text/html': htmlBlob,
+                            'text/plain': textBlob
+                        })
+                    ]);
+                    success = true;
                 } catch (err) {
-                    console.error('execCommand failed:', err);
+                    console.warn('ClipboardItem write failed, falling back to selection copy:', err);
                 }
-                
-                // Clean up
-                selection.removeAllRanges();
-                document.body.removeChild(tempContainer);
-                
-                if (successful) {
-                    // Show success message
-                    const successMsg = document.getElementById('successMessage');
-                    successMsg.textContent = '✓ Signature copied as Rich Text! Paste into Gmail with Ctrl+V';
-                    successMsg.classList.add('show');
-                    setTimeout(() => {
-                        successMsg.classList.remove('show');
-                    }, 3000);
-                } else {
-                    throw new Error('Copy command failed');
+            }
+
+            // Strategy 2: ExecCommand Range Selection Fallback
+            if (!success) {
+                try {
+                    const tempDiv = document.createElement('div');
+                    tempDiv.style.position = 'fixed';
+                    tempDiv.style.left = '-9999px';
+                    tempDiv.style.top = '0';
+                    tempDiv.innerHTML = previewEl.innerHTML;
+                    document.body.appendChild(tempDiv);
+
+                    const range = document.createRange();
+                    range.selectNodeContents(tempDiv);
+                    const sel = window.getSelection();
+                    sel.removeAllRanges();
+                    sel.addRange(range);
+
+                    success = document.execCommand('copy');
+                    sel.removeAllRanges();
+                    document.body.removeChild(tempDiv);
+                } catch (fallbackErr) {
+                    console.error('execCommand copy failed:', fallbackErr);
                 }
-                
-            } catch (err) {
-                console.error('Copy failed:', err);
-                
-                // Show alternative instruction
-                alert('Automatic copy failed. Please manually select the signature in the preview below and copy it (Ctrl+C), then paste into Gmail.');
+            }
+
+            if (success) {
+                showToast('✓ Signature copied as Rich Text! Paste with Ctrl+V directly into Gmail or Outlook.', 'success');
+            } else {
+                showToast('⚠️ Copy failed. Please select the preview signature manually and press Ctrl+C.', 'warning');
             }
         }
 
-        // Copy as HTML (raw HTML code)
-        function copyAsHTML() {
+        // Copy raw HTML code
+        async function copySignatureHTML() {
+            if (!currentGeneratedHTML) {
+                updateLiveSignature();
+            }
+
             try {
-                // Use the Clipboard API for text
                 if (navigator.clipboard && navigator.clipboard.writeText) {
-                    navigator.clipboard.writeText(currentSignatureHTML).then(() => {
-                        // Show success message
-                        const successMsg = document.getElementById('successMessage');
-                        successMsg.textContent = '✓ HTML code copied to clipboard!';
-                        successMsg.classList.add('show');
-                        setTimeout(() => {
-                            successMsg.classList.remove('show');
-                        }, 3000);
-                    }).catch(err => {
-                        console.error('Clipboard API failed:', err);
-                        fallbackCopyHTML();
-                    });
+                    await navigator.clipboard.writeText(currentGeneratedHTML);
+                    showToast('✓ Raw HTML code copied to clipboard!', 'success');
                 } else {
-                    fallbackCopyHTML();
+                    const ta = document.createElement('textarea');
+                    ta.value = currentGeneratedHTML;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
+                    document.body.appendChild(ta);
+                    ta.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(ta);
+                    showToast('✓ Raw HTML code copied to clipboard!', 'success');
                 }
             } catch (err) {
-                console.error('Copy as HTML failed:', err);
-                fallbackCopyHTML();
+                console.error('Copy HTML failed:', err);
+                showToast('⚠️ Failed to copy HTML code.', 'warning');
             }
         }
 
-        // Fallback method for copying HTML
-        function fallbackCopyHTML() {
-            try {
-                const tempTextarea = document.createElement('textarea');
-                tempTextarea.value = currentSignatureHTML;
-                tempTextarea.style.position = 'absolute';
-                tempTextarea.style.left = '-9999px';
-                document.body.appendChild(tempTextarea);
-                
-                tempTextarea.select();
-                const successful = document.execCommand('copy');
-                document.body.removeChild(tempTextarea);
-                
-                if (successful) {
-                    const successMsg = document.getElementById('successMessage');
-                    successMsg.textContent = '✓ HTML code copied to clipboard!';
-                    successMsg.classList.add('show');
-                    setTimeout(() => {
-                        successMsg.classList.remove('show');
-                    }, 3000);
-                } else {
-                    alert('Copy failed. Please try selecting the signature manually.');
-                }
-            } catch (err) {
-                console.error('Fallback copy failed:', err);
-                alert('Copy failed. Please try selecting the signature manually.');
-            }
-        }
+        // Show Toast Notification
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('toastFeedback');
+            const msgEl = document.getElementById('toastMessage');
+            const iconEl = document.getElementById('toastIcon');
 
-        // Select signature for manual copy
-        function selectSignature() {
-            if (!currentSignatureHTML) {
-                alert('Please generate a signature first by clicking the "Generate" button');
-                return;
-            }
+            msgEl.textContent = message;
+            iconEl.textContent = type === 'success' ? '✓' : '⚠️';
+            toast.style.borderColor = type === 'success' ? 'var(--ss-success)' : 'var(--ss-warning)';
+            toast.style.color = type === 'success' ? 'var(--ss-success)' : 'var(--ss-warning)';
 
-            try {
-                const previewElement = document.getElementById('preview');
-                
-                // Create a range and select the preview content
-                const range = document.createRange();
-                range.selectNodeContents(previewElement);
-                
-                // Get the selection and add the range
-                const selection = window.getSelection();
-                selection.removeAllRanges();
-                selection.addRange(range);
-                
-                // Show instruction message
-                const successMsg = document.getElementById('successMessage');
-                successMsg.textContent = '✓ Signature selected! Now press Ctrl+C (or Cmd+C) to copy with formatting';
-                successMsg.classList.add('show');
-                setTimeout(() => {
-                    successMsg.classList.remove('show');
-                }, 5000);
-                
-            } catch (err) {
-                console.error('Selection failed:', err);
-                alert('Selection failed. Please manually select the signature above.');
-            }
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 4000);
         }
 
         // Reset form
-        function resetForm() {
-            document.getElementById('signatureForm').reset();
-            initializeForm();
-            document.getElementById('preview').innerHTML = '<p style="color: #666; text-align: center; padding: 2rem;">Fill in the form above and click "Generate" to see your signature</p>';
-            currentSignatureHTML = '';
+        function resetFormToDefaults() {
+            if (confirm('Reset all signature fields to SuamiSihat default template?')) {
+                populateFormOptions();
+                updateLiveSignature();
+                showToast('Form reset to default brand configuration.');
+            }
         }
 
-        // Theme toggle functionality
+        // Theme management
         function toggleTheme() {
             const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-            
-            // Update theme
-            if (newTheme === 'light') {
+            const currentTheme = html.getAttribute('data-theme') || 'dark';
+            const nextTheme = currentTheme === 'light' ? 'dark' : 'light';
+
+            if (nextTheme === 'light') {
                 html.setAttribute('data-theme', 'light');
             } else {
                 html.removeAttribute('data-theme');
             }
-            
-            // Save to localStorage
-            localStorage.setItem('theme', newTheme);
-            
-            // Update icons
-            updateThemeIcons(newTheme);
+
+            localStorage.setItem('theme', nextTheme);
+            updateThemeIcons(nextTheme);
+            updateLiveSignature();
         }
 
         function updateThemeIcons(theme) {
             const moonIcon = document.querySelector('.moon-icon');
             const sunIcon = document.querySelector('.sun-icon');
-            
             if (theme === 'light') {
                 moonIcon.classList.remove('active');
                 sunIcon.classList.add('active');
@@ -687,32 +799,28 @@
         }
 
         function initializeTheme() {
-            // Check for saved theme preference or default to LIGHT
-            const savedTheme = localStorage.getItem('theme') || 'light';
+            const savedTheme = localStorage.getItem('theme') || 'dark';
             const html = document.documentElement;
-            
             if (savedTheme === 'light') {
                 html.setAttribute('data-theme', 'light');
             } else {
                 html.removeAttribute('data-theme');
             }
-            
             updateThemeIcons(savedTheme);
         }
 
-        // Help Modal Functions
+        // Help Modal Controls
         function toggleHelpModal() {
             const modal = document.getElementById('helpModal');
             modal.classList.toggle('show');
         }
 
-        function closeHelpModal(event) {
-            if (event.target.id === 'helpModal') {
+        function closeHelpModal(e) {
+            if (e.target.id === 'helpModal') {
                 toggleHelpModal();
             }
         }
 
-        // Close modal with ESC key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 const modal = document.getElementById('helpModal');
@@ -720,12 +828,6 @@
                     modal.classList.remove('show');
                 }
             }
-        });
-
-        // Initialize theme and form on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            initializeTheme();
-            initializeForm();
         });
     </script>
 </body>

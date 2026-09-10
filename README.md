@@ -34,7 +34,8 @@ ss-signature/
     ├── templates/
     │   └── signature-template.html  # Reusable signature template (NEW)
     ├── img/
-    │   ├── banner.png     # Email signature banner
+    │   ├── ss-banner.gif  # Default animated email signature banner
+    │   ├── banner.png     # Static banner fallback
     │   ├── ss_icon_dark.svg
     │   ├── ss_icon_light.svg
     │   └── company/       # Company-specific logos
@@ -137,13 +138,13 @@ Click the **❓ Help** button in the app for detailed Gmail integration instruct
 
 The generator supports signatures for all SS Health companies:
 
-| ID  | Company Name                  | Logo File                         |
-| --- | ----------------------------- | --------------------------------- |
-| SSH | SuamiSihat Holding Sdn Bhd    | logo_ssh_secondary_dark/light.svg |
-| SSC | SuamiSihat Healthcare Sdn Bhd | logo_ssc_secondary_dark/light.svg |
-| SSE | SuamiSihat Ecommerce Sdn Bhd  | logo_sse_secondary_dark/light.svg |
-| SSW | SuamiSihat Wellness Sdn Bhd   | logo_ssw_secondary_dark/light.svg |
-| SST | SuamiSihat Technology Sdn Bhd | logo_sst_secondary_dark/light.svg |
+| ID  | Company Name                  | SSM Registration No.     | Logo File                         |
+| --- | ----------------------------- | ------------------------ | --------------------------------- |
+| SSC | SuamiSihat Healthcare Sdn Bhd | 202101044704 (1445004-V) | logo_ssc_secondary_dark/light.svg |
+| SSH | SuamiSihat Holding Sdn Bhd    | 202001024558 (1380878-U) | logo_ssh_secondary_dark/light.svg |
+| SSW | SuamiSihat Wellness Sdn Bhd   | 202101024558 (1403044-V) | logo_ssw_secondary_dark/light.svg |
+| SSE | SuamiSihat Ecommerce Sdn Bhd  | 202501018804 (1621610-T) | logo_sse_secondary_dark/light.svg |
+| SST | SuamiSihat Technology Sdn Bhd | 202401017849 (1569771-W) | logo_sst_secondary_dark/light.svg |
 
 ## 🎨 Customization
 
