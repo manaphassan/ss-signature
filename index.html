@@ -418,6 +418,18 @@
             return digits;
         }
 
+        // Resolves relative asset paths to absolute HTTPS URLs for email client compatibility
+        function resolveAssetUrl(relativePath) {
+            if (!relativePath) return '';
+            if (relativePath.startsWith('http://') || relativePath.startsWith('https://')) {
+                return relativePath;
+            }
+            const base = (CONFIG.branding && CONFIG.branding.baseUrl) || 'https://sign.suamisihat.myds.me/';
+            const cleanBase = base.endsWith('/') ? base : base + '/';
+            const cleanPath = relativePath.startsWith('/') ? relativePath.slice(1) : relativePath;
+            return cleanBase + cleanPath;
+        }
+
         // Switch template style (executive / horizontal / compact)
         function setTemplateStyle(style) {
             currentTemplateStyle = style;
@@ -466,9 +478,10 @@
             const websitesContactHtml = `<a href="${clinicUrl}" target="_blank" rel="noopener" style="text-decoration: none; color: #043388;">suamisihat.clinic</a> &nbsp;|&nbsp; <a href="${portalUrl}" target="_blank" rel="noopener" style="text-decoration: none; color: #043388;">suamisihat.com.my</a>`;
             const primaryOfficeWebsite = (officeId === 'SSC' || officeId === 'SSW') ? clinicUrl : portalUrl;
 
-            // Resolve logo based on theme and preview context
+            // Resolve logo based on theme and preview context with absolute HTTPS URL
             const isDarkSim = currentSimulatorMode === 'dark';
-            const logoSrc = isDarkSim ? selectedOffice.logoUrl : (selectedOffice.logoLightUrl || selectedOffice.logoUrl);
+            const rawLogoPath = isDarkSim ? selectedOffice.logoUrl : (selectedOffice.logoLightUrl || selectedOffice.logoUrl);
+            const logoSrc = resolveAssetUrl(rawLogoPath);
 
             // Office Phone numbers (sanitized)
             const officePhoneDisplay = formatPhoneDisplay(selectedOffice.phone);
@@ -495,19 +508,21 @@
               </td>
             </tr>` : '';
 
-            // Build Social Media HTML
+            // Build Social Media HTML (Crisp PNG icons with absolute URLs for 100% email client compatibility)
             let socialIconsHtml = '';
             Object.keys(CONFIG.socialMedia).forEach(key => {
                 const s = CONFIG.socialMedia[key];
-                socialIconsHtml += `<a href="${s.url}" target="_blank" rel="noopener" style="display: inline-block; margin-right: 8px; text-decoration: none; vertical-align: middle;" title="${s.name}">${s.iconSvg}</a>`;
+                const iconSrc = resolveAssetUrl(s.iconPng || `assets/img/social/${key}.png`);
+                socialIconsHtml += `<a href="${s.url}" target="_blank" rel="noopener" style="display: inline-block; margin-right: 8px; text-decoration: none; vertical-align: middle;" title="${s.name}"><img src="${iconSrc}" alt="${s.name}" width="18" height="18" style="width: 18px; height: 18px; border: 0; display: inline-block; vertical-align: middle;" border="0"></a>`;
             });
 
-            // Banner HTML
+            // Banner HTML with absolute URL
+            const bannerSrc = resolveAssetUrl(CONFIG.branding.bannerUrl);
             const bannerHtml = (showBanner && currentTemplateStyle !== 'compact') ? `
             <tr>
               <td colspan="2" style="padding-top: 14px; border-top: 1px solid #E2E8F0;">
-                <a href="${clinicUrl}" target="_blank" rel="noopener">
-                  <img src="${CONFIG.branding.bannerUrl}" alt="SuamiSihat Health Campaign" style="width: 100%; max-width: 500px; height: auto; border: 0; display: block; border-radius: 4px;" border="0">
+                <a href="${clinicUrl}" target="_blank" rel="noopener" style="display: block; text-decoration: none;">
+                  <img src="${bannerSrc}" alt="SuamiSihat Health Campaign" style="width: 100%; max-width: 500px; height: auto; border: 0; display: block; border-radius: 4px;" width="500" border="0">
                 </a>
               </td>
             </tr>` : '';

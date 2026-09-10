@@ -442,6 +442,7 @@
             container.innerHTML = '';
 
             const fields = [
+                { key: 'baseUrl', label: 'Production Base URL', type: 'url' },
                 { key: 'primaryColor', label: 'Primary Color (SS Blue)', type: 'color' },
                 { key: 'prussianBlue', label: 'Prussian Blue', type: 'color' },
                 { key: 'secondaryColor', label: 'Secondary Color (Azure)', type: 'color' },
@@ -459,7 +460,7 @@
                 groupDiv.className = 'form-group';
                 groupDiv.innerHTML = `
                     <label class="form-label">${field.label}</label>
-                    <input type="${field.type}" class="form-input" value="${configData.branding[field.key]}" onchange="updateBranding('${field.key}', this.value)">
+                    <input type="${field.type}" class="form-input" value="${configData.branding[field.key] || ''}" onchange="updateBranding('${field.key}', this.value)">
                 `;
                 container.appendChild(groupDiv);
             });
@@ -505,8 +506,8 @@
                 ssm: '',
                 address: '',
                 phone: '+60 3 6044 1878',
-                logoUrl: 'assets/img/company/logo_ssc_secondary_dark.svg',
-                logoLightUrl: 'assets/img/company/logo_ssc_secondary_light.svg',
+                logoUrl: 'assets/img/company/logo_ssc_secondary_dark.png',
+                logoLightUrl: 'assets/img/company/logo_ssc_secondary_light.png',
                 companyDomain: 'suamisihat.clinic'
             };
             configData.offices.push(newOffice);
