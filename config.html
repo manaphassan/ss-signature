@@ -793,6 +793,9 @@
                     <span class="status-dot"></span>
                     <span id="saveStatusText">Workspace Synced</span>
                 </div>
+                <button class="action-btn action-btn-primary" onclick="saveToServerDirect()" style="padding: 0.5rem 1rem; font-size: 0.8rem;" title="Auto-save configuration directly to server assets/js/config.js">
+                    <span>💾</span> Auto-Save to Server
+                </button>
                 <a href="index.html" class="header-link-btn" title="Back to Email Signature Generator">
                     <span>←</span> Signature Workspace
                 </a>
@@ -1034,8 +1037,8 @@
                 <button class="action-btn action-btn-secondary" onclick="downloadConfigJs()" title="Download config.js to your downloads folder">
                     <span>📥</span> Download config.js
                 </button>
-                <button class="action-btn action-btn-primary" onclick="saveToFileSystemDirect()" title="Direct 1-click overwrite of config.js via Native File System API">
-                    <span>💾</span> Save to config.js
+                <button class="action-btn action-btn-primary" onclick="saveToServerDirect()" title="Direct 1-click auto-save to server assets/js/config.js">
+                    <span>💾</span> Auto-Save to Server
                 </button>
             </div>
         </footer>
@@ -1781,13 +1784,103 @@
             }, 350);
         }
 
-        // 2. Direct Native File Save via File System Access API
-        async function saveToFileSystemDirect() {
+        // 2. Direct Server & Disk Auto-Save Architecture
+        let persistentFileHandle = null;
+
+        function getDb() {
+            return new Promise((resolve) => {
+                if (!window.indexedDB) return resolve(null);
+                const req = indexedDB.open('SS_ConfigStore', 1);
+                req.onupgradeneeded = (e) => {
+                    e.target.result.createObjectStore('handles');
+                };
+                req.onsuccess = (e) => resolve(e.target.result);
+                req.onerror = () => resolve(null);
+            });
+        }
+
+        async function getStoredFileHandle() {
+            try {
+                const db = await getDb();
+                if (!db) return null;
+                return new Promise((resolve) => {
+                    const tx = db.transaction('handles', 'readonly');
+                    const store = tx.objectStore('handles');
+                    const req = store.get('configFileHandle');
+                    req.onsuccess = () => resolve(req.result || null);
+                    req.onerror = () => resolve(null);
+                });
+            } catch {
+                return null;
+            }
+        }
+
+        async function storeFileHandle(handle) {
+            try {
+                const db = await getDb();
+                if (!db) return;
+                const tx = db.transaction('handles', 'readwrite');
+                tx.objectStore('handles').put(handle, 'configFileHandle');
+            } catch (e) {
+                console.warn('Could not persist file handle to IndexedDB:', e);
+            }
+        }
+
+        async function saveToServerDirect() {
+            showToast('⏳ Auto-saving configuration to server...', 'info');
             const code = buildConfigJsString();
 
-            // Native File System Access API (Supported in modern Chrome & Edge)
+            // Tier 1: Try Direct Server HTTP POST to save_config.php (Works if PHP Profile enabled in Web Station)
+            try {
+                const response = await fetch('save_config.php', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest'
+                    },
+                    body: JSON.stringify({ config: configState })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    if (result && result.success) {
+                        saveToWorkspace();
+                        showToast('✓ Auto-saved directly to server assets/js/config.js!', 'success');
+                        showHubStatus(`Saved to server at ${new Date().toLocaleTimeString()} • ${result.bytes} bytes`);
+                        return;
+                    }
+                }
+            } catch (netErr) {
+                console.log('HTTP POST to save_config.php not handled by server, attempting direct file handle:', netErr);
+            }
+
+            // Tier 2: 1-Click Direct File System Overwrite via Native Chromium API
             if ('showSaveFilePicker' in window) {
                 try {
+                    // Try to reuse stored persistent handle
+                    if (!persistentFileHandle) {
+                        persistentFileHandle = await getStoredFileHandle();
+                    }
+
+                    if (persistentFileHandle) {
+                        const queryOpts = { mode: 'readwrite' };
+                        let perm = await persistentFileHandle.queryPermission(queryOpts);
+                        if (perm !== 'granted') {
+                            perm = await persistentFileHandle.requestPermission(queryOpts);
+                        }
+                        if (perm === 'granted') {
+                            const writable = await persistentFileHandle.createWritable();
+                            await writable.write(code);
+                            await writable.close();
+
+                            saveToWorkspace();
+                            showToast('✓ Auto-saved directly to ' + persistentFileHandle.name + ' on server disk!', 'success');
+                            showHubStatus(`Saved to ${persistentFileHandle.name} at ${new Date().toLocaleTimeString()}`);
+                            return;
+                        }
+                    }
+
+                    // First time: prompt user to select \\SSNAS\web\ss_signature\assets\js\config.js once
                     const handle = await window.showSaveFilePicker({
                         suggestedName: 'config.js',
                         types: [{
@@ -1795,24 +1888,32 @@
                             accept: { 'application/javascript': ['.js'] },
                         }],
                     });
+
+                    persistentFileHandle = handle;
+                    await storeFileHandle(handle);
+
                     const writable = await handle.createWritable();
                     await writable.write(code);
                     await writable.close();
 
                     saveToWorkspace();
-                    showToast('✓ Saved directly to ' + handle.name + '! Config file updated on disk.', 'success');
+                    showToast('✓ Saved directly to ' + handle.name + '! Connected for future 1-click auto-save.', 'success');
+                    showHubStatus(`Saved to ${handle.name} at ${new Date().toLocaleTimeString()}`);
                     return;
                 } catch (err) {
                     if (err.name === 'AbortError') {
-                        return; // User cancelled dialog
+                        return; // User cancelled
                     }
                     console.warn('Native File System API error, falling back to download:', err);
                 }
             }
 
-            // Fallback: standard file download
+            // Tier 3: Fallback standard file download
             downloadConfigJs();
         }
+
+        // Backward compatibility alias
+        const saveToFileSystemDirect = saveToServerDirect;
 
         // 3. Reset Workspace to Factory Defaults
         function resetWorkspaceToDefaults() {
