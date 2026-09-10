@@ -580,6 +580,195 @@
             background: #EF4444;
             color: #FFFFFF;
         }
+
+        /* Subsidiary Rail Controls (Reorder & Duplicate) */
+        .subsidiary-card-actions {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-left: auto;
+            opacity: 0.5;
+            transition: opacity 0.2s ease;
+        }
+
+        .subsidiary-card:hover .subsidiary-card-actions,
+        .subsidiary-card.active .subsidiary-card-actions {
+            opacity: 1;
+        }
+
+        .rail-btn-icon {
+            width: 26px;
+            height: 26px;
+            padding: 0;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-surface);
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+
+        .rail-btn-icon:hover {
+            color: var(--text-primary);
+            border-color: var(--ss-azure);
+            background: var(--bg-surface-subtle);
+            transform: translateY(-1px);
+        }
+
+        .rail-btn-icon.delete:hover {
+            border-color: #EF4444;
+            color: #EF4444;
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Live Mini Email Signature Preview Box */
+        .mini-preview-container {
+            margin-top: 2rem;
+            padding-top: 1.75rem;
+            border-top: 1px solid var(--border-color);
+        }
+
+        .mini-preview-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+        }
+
+        .mini-preview-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .mini-preview-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: var(--bg-input);
+            padding: 3px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        .sim-toggle-btn {
+            padding: 4px 10px;
+            border-radius: 6px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.15s ease;
+        }
+
+        .sim-toggle-btn.active {
+            background: var(--ss-blue);
+            color: #FFFFFF;
+        }
+
+        [data-theme="light"] .sim-toggle-btn.active {
+            background: var(--ss-blue);
+            color: #FFFFFF;
+        }
+
+        .mini-signature-stage {
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            padding: 1.5rem;
+            overflow-x: auto;
+            transition: background 0.25s ease, border-color 0.25s ease;
+            box-shadow: inset 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .mini-signature-stage[data-sim="light"] {
+            background: #FFFFFF;
+            color: #334155;
+        }
+
+        .mini-signature-stage[data-sim="dark"] {
+            background: #0B1120;
+            color: #E2E8F0;
+            border-color: #1E293B;
+        }
+
+        /* Auto-Save Status Badge */
+        .save-status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 999px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--ss-success);
+            border: 1px solid rgba(16, 185, 129, 0.25);
+            transition: all 0.2s ease;
+        }
+
+        .save-status-pill.unsaved {
+            background: rgba(245, 158, 11, 0.12);
+            color: #F59E0B;
+            border-color: rgba(245, 158, 11, 0.25);
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: currentColor;
+            display: inline-block;
+        }
+
+        /* Department tags */
+        .dept-tags-cloud {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 1rem;
+        }
+
+        .dept-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: var(--bg-input);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .dept-remove-btn {
+            border: none;
+            background: transparent;
+            color: var(--text-muted);
+            font-size: 1rem;
+            line-height: 1;
+            cursor: pointer;
+            padding: 0 2px;
+            border-radius: 4px;
+        }
+
+        .dept-remove-btn:hover {
+            color: #EF4444;
+        }
     </style>
 </head>
 <body>
@@ -600,6 +789,10 @@
             </div>
 
             <div class="header-actions">
+                <div class="save-status-pill" id="headerSaveStatus" title="Changes auto-save locally to your browser workspace">
+                    <span class="status-dot"></span>
+                    <span id="saveStatusText">Workspace Synced</span>
+                </div>
                 <a href="index.html" class="header-link-btn" title="Back to Email Signature Generator">
                     <span>←</span> Signature Workspace
                 </a>
@@ -615,6 +808,10 @@
             <button class="config-tab-btn active" onclick="switchConfigTab('offices', this)">
                 <span>🏢</span> Corporate Subsidiaries
                 <span class="tab-badge" id="officeCountBadge">5</span>
+            </button>
+            <button class="config-tab-btn" onclick="switchConfigTab('departments', this)">
+                <span>🏷️</span> Departments
+                <span class="tab-badge" id="deptCountBadge">9</span>
             </button>
             <button class="config-tab-btn" onclick="switchConfigTab('social', this)">
                 <span>🌐</span> Social Media Links
@@ -754,7 +951,33 @@
             </div>
         </section>
 
-        <!-- SECTION 5: Export & Deployment Hub -->
+        <!-- SECTION 5: Departments & Practice Areas -->
+        <section id="tab-departments" class="config-tab-panel" style="display: none;">
+            <div class="card-section">
+                <div class="section-header">
+                    <h2 class="section-title">
+                        <span class="step-badge">🏷️</span>
+                        Clinical Practice Areas & Corporate Departments
+                    </h2>
+                </div>
+                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                    Pre-configured departments available in the signature generator dropdown for staff, physicians, and management.
+                </p>
+
+                <div style="display: flex; gap: 10px; max-width: 540px; margin-bottom: 1.5rem;">
+                    <input type="text" id="newDeptInput" class="form-input" placeholder="e.g. Telehealth & Digital Care" onkeydown="if(event.key==='Enter'){ addNewDepartment(); event.preventDefault(); }">
+                    <button class="action-btn action-btn-primary" onclick="addNewDepartment()" type="button" style="white-space: nowrap;">
+                        + Add Department
+                    </button>
+                </div>
+
+                <div class="dept-tags-cloud" id="departmentTagsContainer">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </section>
+
+        <!-- SECTION 6: Export & Deployment Hub -->
         <section id="tab-export" class="config-tab-panel" style="display: none;">
             <div class="card-section">
                 <div class="section-header">
@@ -799,14 +1022,20 @@
             </div>
 
             <div class="hub-buttons">
-                <button class="action-btn action-btn-secondary" onclick="loadConfigFilePicker()">
+                <button class="action-btn action-btn-secondary" onclick="loadConfigFilePicker()" title="Load existing config.js from disk">
                     <span>📂</span> Load File
                 </button>
-                <button class="action-btn action-btn-secondary" onclick="copyConfigCode()">
+                <button class="action-btn action-btn-secondary" onclick="resetWorkspaceToDefaults()" title="Reset workspace back to original config.js defaults">
+                    <span>🔄</span> Reset Defaults
+                </button>
+                <button class="action-btn action-btn-secondary" onclick="copyConfigCode()" title="Copy JavaScript configuration code to clipboard">
                     <span>📋</span> Copy Code
                 </button>
-                <button class="action-btn action-btn-primary" onclick="downloadConfigJs()">
-                    <span>💾</span> Save & Download config.js
+                <button class="action-btn action-btn-secondary" onclick="downloadConfigJs()" title="Download config.js to your downloads folder">
+                    <span>📥</span> Download config.js
+                </button>
+                <button class="action-btn action-btn-primary" onclick="saveToFileSystemDirect()" title="Direct 1-click overwrite of config.js via Native File System API">
+                    <span>💾</span> Save to config.js
                 </button>
             </div>
         </footer>
@@ -825,9 +1054,27 @@
     <script src="assets/js/config.js"></script>
 
     <script>
-        // Deep clone state
-        let configState = JSON.parse(JSON.stringify(CONFIG));
+        // Check for workspace persistence on initial load
+        let configState;
+        const savedWorkspace = localStorage.getItem('ss_signature_config');
+        if (savedWorkspace) {
+            try {
+                const parsed = JSON.parse(savedWorkspace);
+                if (parsed && parsed.offices && parsed.offices.length > 0) {
+                    configState = parsed;
+                    console.log('SuamiSihat: Resumed active workspace from browser storage');
+                }
+            } catch (e) {
+                console.warn('Unable to load saved workspace, using config.js defaults:', e);
+            }
+        }
+        if (!configState) {
+            configState = JSON.parse(JSON.stringify(CONFIG));
+        }
+
         let selectedOfficeIndex = 0;
+        let miniSimulatorMode = 'light';
+        let autoSaveTimer = null;
 
         // Authoritative Brand Colors definition for Palette Swatches
         const BRAND_PALETTE_GUIDE = [
@@ -841,10 +1088,22 @@
             { key: 'muted', name: 'Slate Muted', role: 'Metadata Secondary', hex: '#64748B' }
         ];
 
+        // Resolve absolute URL for email assets
+        function resolveAssetUrl(assetPath) {
+            if (!assetPath) return '';
+            if (assetPath.startsWith('http://') || assetPath.startsWith('https://') || assetPath.startsWith('data:')) {
+                return assetPath;
+            }
+            const baseUrl = (configState.branding && configState.branding.baseUrl) ? configState.branding.baseUrl : 'https://sign.suamisihat.myds.me/';
+            const cleanBase = baseUrl.endsWith('/') ? baseUrl : baseUrl + '/';
+            const cleanPath = assetPath.startsWith('/') ? assetPath.slice(1) : assetPath;
+            return cleanBase + cleanPath;
+        }
+
         // Switch Top Tabs
         function switchConfigTab(tabKey, tabBtn) {
             document.querySelectorAll('.config-tab-btn').forEach(b => b.classList.remove('active'));
-            tabBtn.classList.add('active');
+            if (tabBtn) tabBtn.classList.add('active');
 
             document.querySelectorAll('.config-tab-panel').forEach(p => p.style.display = 'none');
             const target = document.getElementById('tab-' + tabKey);
@@ -854,6 +1113,8 @@
 
             if (tabKey === 'export') {
                 refreshExportOutput();
+            } else if (tabKey === 'departments') {
+                renderDepartmentTags();
             }
         }
 
@@ -861,35 +1122,49 @@
         function initializeWorkspace() {
             renderSubsidiaryRail();
             renderActiveEntityDetails();
+            renderDepartmentTags();
             renderSocialMediaCards();
             renderBrandPaletteSwatches();
             renderDefaultsForm();
             updateBannerPreview();
             initializeTheme();
+            renderLiveMiniPreview();
         }
+
+        // ==========================================
+        // SECTION 1: Corporate Subsidiaries Rail & Editor
+        // ==========================================
 
         // Render Subsidiary Rail (Left Side Master List)
         function renderSubsidiaryRail() {
             const list = document.getElementById('subsidiaryRailList');
             const badge = document.getElementById('officeCountBadge');
-            badge.textContent = configState.offices.length;
+            if (badge) badge.textContent = configState.offices.length;
 
             list.innerHTML = configState.offices.map((office, idx) => {
                 const isActive = idx === selectedOfficeIndex;
-                const logoSrc = office.logoLightUrl || office.logoUrl;
+                const logoSrc = resolveAssetUrl(office.logoLightUrl || office.logoUrl);
+                const isFirst = idx === 0;
+                const isLast = idx === configState.offices.length - 1;
+
                 return `
-                <button class="subsidiary-card ${isActive ? 'active' : ''}" onclick="selectOffice(${idx})" type="button">
+                <div class="subsidiary-card ${isActive ? 'active' : ''}" onclick="selectOffice(${idx})" role="button" tabindex="0">
                     <div class="subsidiary-thumb">
                         <img src="${logoSrc}" alt="${office.shortName}" onerror="this.src='assets/img/ss_icon_dark.svg'">
                     </div>
                     <div class="subsidiary-info">
-                        <div class="subsidiary-name">${office.shortName || office.name}</div>
+                        <div class="subsidiary-name" id="railName_${idx}">${office.shortName || office.name}</div>
                         <div class="subsidiary-meta">
-                            <span class="subsidiary-pill">${office.id}</span>
-                            <span style="font-size:0.75rem; color:var(--text-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${office.name}</span>
+                            <span class="subsidiary-pill" id="railBadge_${idx}">${office.id}</span>
+                            <span style="font-size:0.75rem; color:var(--text-muted); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" id="railSub_${idx}">${office.name}</span>
                         </div>
                     </div>
-                </button>`;
+                    <div class="subsidiary-card-actions" onclick="event.stopPropagation()">
+                        <button class="rail-btn-icon" onclick="moveOfficeUp(${idx}, event)" title="Move Up" ${isFirst ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''} type="button">▲</button>
+                        <button class="rail-btn-icon" onclick="moveOfficeDown(${idx}, event)" title="Move Down" ${isLast ? 'disabled style="opacity:0.3; cursor:not-allowed;"' : ''} type="button">▼</button>
+                        <button class="rail-btn-icon" onclick="duplicateOffice(${idx}, event)" title="Duplicate Subsidiary" type="button">📋</button>
+                    </div>
+                </div>`;
             }).join('');
         }
 
@@ -899,6 +1174,52 @@
             selectedOfficeIndex = index;
             renderSubsidiaryRail();
             renderActiveEntityDetails();
+            renderLiveMiniPreview();
+        }
+
+        // Reorder Subsidiaries
+        function moveOfficeUp(index, event) {
+            if (event) event.stopPropagation();
+            if (index <= 0) return;
+            const item = configState.offices.splice(index, 1)[0];
+            configState.offices.splice(index - 1, 0, item);
+            selectedOfficeIndex = index - 1;
+            renderSubsidiaryRail();
+            renderActiveEntityDetails();
+            renderLiveMiniPreview();
+            markWorkspaceDirty();
+            showToast(`✓ Moved "${item.shortName}" up.`, 'success');
+        }
+
+        function moveOfficeDown(index, event) {
+            if (event) event.stopPropagation();
+            if (index >= configState.offices.length - 1) return;
+            const item = configState.offices.splice(index, 1)[0];
+            configState.offices.splice(index + 1, 0, item);
+            selectedOfficeIndex = index + 1;
+            renderSubsidiaryRail();
+            renderActiveEntityDetails();
+            renderLiveMiniPreview();
+            markWorkspaceDirty();
+            showToast(`✓ Moved "${item.shortName}" down.`, 'success');
+        }
+
+        // Duplicate Subsidiary
+        function duplicateOffice(index, event) {
+            if (event) event.stopPropagation();
+            const source = configState.offices[index];
+            if (!source) return;
+            const clone = JSON.parse(JSON.stringify(source));
+            clone.id = (clone.id + '_COPY').slice(0, 10);
+            clone.shortName = clone.shortName + ' (Copy)';
+            clone.name = clone.name + ' (Copy)';
+            configState.offices.splice(index + 1, 0, clone);
+            selectedOfficeIndex = index + 1;
+            renderSubsidiaryRail();
+            renderActiveEntityDetails();
+            renderLiveMiniPreview();
+            markWorkspaceDirty();
+            showToast(`✓ Duplicated subsidiary as "${clone.shortName}".`, 'success');
         }
 
         // Render Active Entity Editor Details (Right Side)
@@ -911,53 +1232,58 @@
                 <div class="detail-pane-header">
                     <div class="detail-title-group">
                         <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-                            <span class="config-header-badge">${office.id}</span>
-                            <span class="subsidiary-pill">${office.companyDomain || 'suamisihat.clinic'}</span>
+                            <span class="config-header-badge" id="detailOfficeIdBadge">${office.id}</span>
+                            <span class="subsidiary-pill" id="detailOfficeDomain">${office.companyDomain || 'suamisihat.clinic'}</span>
                         </div>
-                        <h3>${office.name}</h3>
+                        <h3 id="detailOfficeTitle">${office.name}</h3>
                         <p>Corporate legal identity, SSM compliance, and high-DPI email logo assets.</p>
                     </div>
 
-                    ${configState.offices.length > 1 ? `
-                    <button class="btn-subtle-danger" onclick="deleteActiveOffice(${selectedOfficeIndex})" type="button">
-                        🗑️ Delete Entity
-                    </button>` : ''}
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <button class="action-btn action-btn-secondary" onclick="duplicateOffice(${selectedOfficeIndex}, event)" type="button" title="Clone this subsidiary">
+                            📋 Duplicate
+                        </button>
+                        ${configState.offices.length > 1 ? `
+                        <button class="btn-subtle-danger" onclick="deleteActiveOffice(${selectedOfficeIndex})" type="button">
+                            🗑️ Delete
+                        </button>` : ''}
+                    </div>
                 </div>
 
                 <div class="form-grid">
                     <div class="form-group">
                         <label class="form-label" for="entId">Office ID (Code)</label>
-                        <input type="text" id="entId" class="form-input" value="${office.id}" onchange="updateActiveOfficeField('id', this.value); renderSubsidiaryRail();">
+                        <input type="text" id="entId" class="form-input" value="${office.id}" oninput="updateActiveOfficeField('id', this.value)">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="entShortName">Short Brand Name</label>
-                        <input type="text" id="entShortName" class="form-input" value="${office.shortName || ''}" onchange="updateActiveOfficeField('shortName', this.value); renderSubsidiaryRail();">
+                        <input type="text" id="entShortName" class="form-input" value="${office.shortName || ''}" oninput="updateActiveOfficeField('shortName', this.value)">
                     </div>
 
                     <div class="form-group full-width">
                         <label class="form-label" for="entName">Full Legal Company Entity Name</label>
-                        <input type="text" id="entName" class="form-input" value="${office.name}" onchange="updateActiveOfficeField('name', this.value); renderSubsidiaryRail();">
+                        <input type="text" id="entName" class="form-input" value="${office.name}" oninput="updateActiveOfficeField('name', this.value)">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="entSsm">SSM Registration Number</label>
-                        <input type="text" id="entSsm" class="form-input" value="${office.ssm || ''}" onchange="updateActiveOfficeField('ssm', this.value)" placeholder="e.g. 202101044704 (1445004-V)">
+                        <input type="text" id="entSsm" class="form-input" value="${office.ssm || ''}" oninput="updateActiveOfficeField('ssm', this.value)" placeholder="e.g. 202101044704 (1445004-V)">
                     </div>
 
                     <div class="form-group">
                         <label class="form-label" for="entDomain">Company Domain</label>
-                        <input type="text" id="entDomain" class="form-input" value="${office.companyDomain || ''}" onchange="updateActiveOfficeField('companyDomain', this.value)">
+                        <input type="text" id="entDomain" class="form-input" value="${office.companyDomain || ''}" oninput="updateActiveOfficeField('companyDomain', this.value)">
                     </div>
 
                     <div class="form-group full-width">
                         <label class="form-label" for="entPhone">Office Telephone</label>
-                        <input type="tel" id="entPhone" class="form-input" value="${office.phone || ''}" onchange="updateActiveOfficeField('phone', this.value)">
+                        <input type="tel" id="entPhone" class="form-input" value="${office.phone || ''}" oninput="updateActiveOfficeField('phone', this.value)">
                     </div>
 
                     <div class="form-group full-width">
                         <label class="form-label" for="entAddress">Headquarters Registered Address</label>
-                        <textarea id="entAddress" class="form-textarea" onchange="updateActiveOfficeField('address', this.value)">${office.address || ''}</textarea>
+                        <textarea id="entAddress" class="form-textarea" oninput="updateActiveOfficeField('address', this.value)">${office.address || ''}</textarea>
                     </div>
                 </div>
 
@@ -973,65 +1299,224 @@
                     <div class="form-grid">
                         <div class="form-group">
                             <label class="form-label" for="entLogoLight">Logo Light URL (For White Email Clients)</label>
-                            <input type="text" id="entLogoLight" class="form-input" value="${office.logoLightUrl || ''}" onchange="updateActiveOfficeField('logoLightUrl', this.value); refreshLogoPreview('light');">
+                            <input type="text" id="entLogoLight" class="form-input" value="${office.logoLightUrl || ''}" oninput="updateActiveOfficeField('logoLightUrl', this.value); refreshLogoPreview('light');">
                             <div class="asset-preview-tile">
                                 <div class="preview-box light-mode-bg">
-                                    <img id="previewImgLight" src="${office.logoLightUrl}" alt="Light Logo" onload="setLogoStatus('light', true)" onerror="setLogoStatus('light', false)">
+                                    <img id="previewImgLight" src="${resolveAssetUrl(office.logoLightUrl)}" alt="Light Logo" onload="checkAssetResolution(this, 'light')" onerror="handleAssetError('light')">
                                 </div>
                                 <div class="preview-meta">
                                     <div class="preview-label">Light Background Render</div>
-                                    <div class="preview-status" id="statusLight">✅ Valid PNG Loaded</div>
+                                    <div class="preview-status" id="statusLight">Checking asset...</div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="form-label" for="entLogoDark">Logo Dark URL (For Dark Mode Simulator)</label>
-                            <input type="text" id="entLogoDark" class="form-input" value="${office.logoUrl || ''}" onchange="updateActiveOfficeField('logoUrl', this.value); refreshLogoPreview('dark');">
+                            <input type="text" id="entLogoDark" class="form-input" value="${office.logoUrl || ''}" oninput="updateActiveOfficeField('logoUrl', this.value); refreshLogoPreview('dark');">
                             <div class="asset-preview-tile">
                                 <div class="preview-box dark-mode-bg">
-                                    <img id="previewImgDark" src="${office.logoUrl}" alt="Dark Logo" onload="setLogoStatus('dark', true)" onerror="setLogoStatus('dark', false)">
+                                    <img id="previewImgDark" src="${resolveAssetUrl(office.logoUrl)}" alt="Dark Logo" onload="checkAssetResolution(this, 'dark')" onerror="handleAssetError('dark')">
                                 </div>
                                 <div class="preview-meta">
                                     <div class="preview-label">Dark Background Render</div>
-                                    <div class="preview-status" id="statusDark">✅ Valid PNG Loaded</div>
+                                    <div class="preview-status" id="statusDark">Checking asset...</div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- EMBEDDED LIVE MINI EMAIL SIGNATURE PREVIEW -->
+                <div class="mini-preview-container">
+                    <div class="mini-preview-header">
+                        <div class="mini-preview-title">
+                            <span>✉️</span>
+                            <span>Live Subsidiary Email Signature Simulator</span>
+                            <span class="subsidiary-pill" id="previewEntityIdBadge">${office.id}</span>
+                        </div>
+                        <div class="mini-preview-toolbar">
+                            <button type="button" class="sim-toggle-btn ${miniSimulatorMode === 'light' ? 'active' : ''}" id="miniSimLight" onclick="setMiniSimMode('light')">
+                                ☀️ Light Mail
+                            </button>
+                            <button type="button" class="sim-toggle-btn ${miniSimulatorMode === 'dark' ? 'active' : ''}" id="miniSimDark" onclick="setMiniSimMode('dark')">
+                                🌙 Dark Mail
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mini-signature-stage" id="miniSignatureStage" data-sim="${miniSimulatorMode}">
+                        <!-- Live table rendered dynamically -->
+                    </div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 8px; font-size: 0.75rem; color: var(--text-muted); flex-wrap: wrap; gap: 8px;">
+                        <span>⚡ Reacts live to all office edits, phone numbers, and brand palette tokens</span>
+                        <span>Standard: 60:30:10 Medical System</span>
+                    </div>
+                </div>
             `;
+            renderLiveMiniPreview();
         }
 
+        // Real-time two-way reactive field update
         function updateActiveOfficeField(field, value) {
-            if (configState.offices[selectedOfficeIndex]) {
-                configState.offices[selectedOfficeIndex][field] = value;
-                showHubStatus(`Updated ${field} for ${configState.offices[selectedOfficeIndex].shortName}`);
+            const office = configState.offices[selectedOfficeIndex];
+            if (!office) return;
+            office[field] = value;
+
+            // Direct DOM element sync to prevent input blur / cursor jump
+            if (field === 'shortName') {
+                const railName = document.getElementById(`railName_${selectedOfficeIndex}`);
+                if (railName) railName.textContent = value || office.name;
+            } else if (field === 'name') {
+                const railSub = document.getElementById(`railSub_${selectedOfficeIndex}`);
+                if (railSub) railSub.textContent = value;
+                const detailTitle = document.getElementById('detailOfficeTitle');
+                if (detailTitle) detailTitle.textContent = value;
+            } else if (field === 'id') {
+                const railBadge = document.getElementById(`railBadge_${selectedOfficeIndex}`);
+                if (railBadge) railBadge.textContent = value;
+                const previewBadge = document.getElementById('previewEntityIdBadge');
+                if (previewBadge) previewBadge.textContent = value;
+                const headerBadge = document.getElementById('detailOfficeIdBadge');
+                if (headerBadge) headerBadge.textContent = value;
+            } else if (field === 'companyDomain') {
+                const domainBadge = document.getElementById('detailOfficeDomain');
+                if (domainBadge) domainBadge.textContent = value || 'suamisihat.clinic';
             }
+
+            renderLiveMiniPreview();
+            markWorkspaceDirty();
+            showHubStatus(`Updated ${field} for ${office.shortName || office.name}`);
         }
 
         function refreshLogoPreview(type) {
             const office = configState.offices[selectedOfficeIndex];
             if (type === 'light') {
                 const img = document.getElementById('previewImgLight');
-                if (img) img.src = office.logoLightUrl;
+                if (img) img.src = resolveAssetUrl(office.logoLightUrl);
             } else {
                 const img = document.getElementById('previewImgDark');
-                if (img) img.src = office.logoUrl;
+                if (img) img.src = resolveAssetUrl(office.logoUrl);
             }
-            renderSubsidiaryRail();
+            renderLiveMiniPreview();
         }
 
-        function setLogoStatus(type, isValid) {
+        function checkAssetResolution(imgEl, type) {
+            const statusEl = document.getElementById(type === 'light' ? 'statusLight' : 'statusDark');
+            if (!statusEl || !imgEl) return;
+            statusEl.className = 'preview-status';
+            statusEl.innerHTML = `✅ ${imgEl.naturalWidth}×${imgEl.naturalHeight}px • Verified PNG Loaded`;
+        }
+
+        function handleAssetError(type) {
             const statusEl = document.getElementById(type === 'light' ? 'statusLight' : 'statusDark');
             if (!statusEl) return;
-            if (isValid) {
-                statusEl.className = 'preview-status';
-                statusEl.innerHTML = '✅ Valid PNG Loaded';
-            } else {
-                statusEl.className = 'preview-status error';
-                statusEl.innerHTML = '⚠️ Image Unreachable';
-            }
+            statusEl.className = 'preview-status error';
+            statusEl.innerHTML = `⚠️ Asset Unreachable (Check URL / Base Path)`;
+        }
+
+        // Mini Preview Simulator controls
+        function setMiniSimMode(mode) {
+            miniSimulatorMode = mode;
+            const stage = document.getElementById('miniSignatureStage');
+            if (stage) stage.setAttribute('data-sim', mode);
+            const lightBtn = document.getElementById('miniSimLight');
+            const darkBtn = document.getElementById('miniSimDark');
+            if (lightBtn) lightBtn.classList.toggle('active', mode === 'light');
+            if (darkBtn) darkBtn.classList.toggle('active', mode === 'dark');
+            renderLiveMiniPreview();
+        }
+
+        // Render Live Mini Email Signature
+        function renderLiveMiniPreview() {
+            const stage = document.getElementById('miniSignatureStage');
+            if (!stage) return;
+            const office = configState.offices[selectedOfficeIndex];
+            if (!office) return;
+
+            const isDark = miniSimulatorMode === 'dark';
+            const rawLogo = isDark ? (office.logoUrl || office.logoLightUrl) : (office.logoLightUrl || office.logoUrl);
+            const logoSrc = resolveAssetUrl(rawLogo);
+            const bannerSrc = resolveAssetUrl(configState.branding.bannerUrl);
+
+            const def = configState.defaults || {};
+            const practitionerName = `${def.firstName || 'Dr. Amin'} ${def.lastName || 'Radzi'}`;
+            const credentials = def.credentials || 'MD, MMC 48291';
+            const position = def.position || 'Consultant Men\'s Health Physician';
+            const department = def.department || 'Clinical Services';
+            const workEmail = def.email || 'dr.amin@suamisihat.clinic';
+            const workPhone = def.phone || '+60 12-345 6789';
+            const primaryColor = (configState.branding && configState.branding.primaryColor) ? configState.branding.primaryColor : '#043388';
+            const prussianBlue = (configState.branding && configState.branding.prussianBlue) ? configState.branding.prussianBlue : '#022057';
+            const lionGold = (configState.branding && configState.branding.lion) ? configState.branding.lion : '#BD9A73';
+
+            let socialHtml = '';
+            Object.keys(configState.socialMedia || {}).forEach(k => {
+                const s = configState.socialMedia[k];
+                const iconSrc = resolveAssetUrl(s.iconPng || `assets/img/social/${k}.png`);
+                socialHtml += `<a href="${s.url}" target="_blank" rel="noopener" style="display:inline-block; margin-right:8px; text-decoration:none;"><img src="${iconSrc}" alt="${s.name}" width="18" height="18" style="width:18px;height:18px;border:0;display:inline-block;vertical-align:middle;"></a>`;
+            });
+
+            stage.innerHTML = `
+            <table style="width: 100%; max-width: 520px; font-size: 10pt; font-family: Arial, Helvetica, sans-serif; color: ${isDark ? '#CBD5E1' : '#334155'}; line-height: 1.4;" cellspacing="0" cellpadding="0" border="0">
+              <tbody>
+                <tr>
+                  <td colspan="2" style="padding-bottom: 12px; border-bottom: 2px solid ${primaryColor};">
+                    <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
+                      <tr>
+                        <td style="vertical-align: middle;">
+                          <span style="font-size: 15pt; font-weight: bold; font-family: Arial, sans-serif; color: ${isDark ? '#F8FAFC' : prussianBlue}; letter-spacing: -0.2px;">${practitionerName}</span>
+                          <span style="display:inline-block; font-size: 8pt; font-family: Arial, sans-serif; font-weight: bold; color: ${lionGold}; background: ${isDark ? 'rgba(189,154,115,0.18)' : '#FDF8F3'}; border: 1px solid ${isDark ? 'rgba(189,154,115,0.4)' : '#EAD8C7'}; padding: 1px 6px; border-radius: 4px; vertical-align: middle; margin-left: 4px;">${credentials}</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-top: 4px; font-size: 9pt; font-family: Arial, sans-serif; color: ${isDark ? '#94A3B8' : '#475569'};">
+                          <strong style="color: ${primaryColor};">${position}</strong> • <span style="color: #64748B;">${department}</span>
+                          <span style="color: #94A3B8;">&nbsp;|&nbsp;</span>
+                          <a href="https://${office.companyDomain || 'suamisihat.clinic'}" target="_blank" rel="noopener" style="text-decoration: none; color: ${primaryColor}; font-weight: 600;">${office.companyDomain || 'suamisihat.clinic'}</a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+                <tr><td colspan="2" style="height: 14px; font-size: 1px; line-height: 1px;">&nbsp;</td></tr>
+                <tr>
+                  <td style="width: 140px; max-width: 140px; vertical-align: top; padding-right: 16px; border-right: 1px solid ${isDark ? '#334155' : '#E2E8F0'}; text-align: center;" width="140" valign="top" align="center">
+                    <img src="${logoSrc}" alt="${office.name}" style="width: 110px; max-width: 110px; height: auto; border: 0; display: block; margin: 0 auto;">
+                    <div style="margin-top: 8px; line-height: 1.3; text-align: center;">
+                      <strong style="font-size: 7.5pt; font-family: Arial, sans-serif; color: ${isDark ? '#F1F5F9' : prussianBlue}; display: block;">${office.name}</strong>
+                      <span style="font-size: 6.5pt; font-family: Arial, sans-serif; color: #64748B; display: block; margin-top: 2px;">${office.ssm || ''}</span>
+                    </div>
+                  </td>
+                  <td style="padding-left: 16px; vertical-align: top;" valign="top">
+                    <table cellspacing="0" cellpadding="0" border="0" style="width: 100%;">
+                      <tbody>
+                        <tr>
+                          <td style="font-size: 8.5pt; font-family: Arial, sans-serif; color: ${isDark ? '#CBD5E1' : '#334155'}; line-height: 17px;">
+                            <strong style="color: ${isDark ? '#93C5FD' : prussianBlue};">Mobile:</strong> ${workPhone}<br>
+                            <strong style="color: ${isDark ? '#93C5FD' : prussianBlue};">Office:</strong> ${office.phone || ''}<br>
+                            <strong style="color: ${isDark ? '#93C5FD' : prussianBlue};">Email:</strong> <span style="color: ${primaryColor}; font-weight: 500;">${workEmail}</span><br>
+                            <strong style="color: ${isDark ? '#93C5FD' : prussianBlue};">Address:</strong> <span style="color: #64748B;">${office.address || ''}</span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td style="padding-top: 10px; padding-bottom: 4px;">
+                            <a href="${def.bookingUrl || 'https://suamisihat.clinic'}" target="_blank" rel="noopener" style="display: inline-block; background-color: ${primaryColor}; color: #FFFFFF; font-family: Arial, sans-serif; font-size: 8pt; font-weight: bold; text-decoration: none; padding: 5px 12px; border-radius: 4px;">
+                              📅 ${def.bookingText || 'Book Consultation'}
+                            </a>
+                          </td>
+                        </tr>
+                        <tr><td style="padding-top: 8px;">${socialHtml}</td></tr>
+                      </tbody>
+                    </table>
+                  </td>
+                </tr>
+                <tr>
+                  <td colspan="2" style="padding-top: 12px; border-top: 1px solid ${isDark ? '#334155' : '#E2E8F0'}; margin-top: 12px;">
+                    <img src="${bannerSrc}" alt="SuamiSihat Banner" style="width: 100%; max-width: 500px; height: auto; border-radius: 4px; display: block;">
+                  </td>
+                </tr>
+              </tbody>
+            </table>`;
         }
 
         function addNewSubsidiary() {
@@ -1050,6 +1535,8 @@
             selectedOfficeIndex = configState.offices.length - 1;
             renderSubsidiaryRail();
             renderActiveEntityDetails();
+            renderLiveMiniPreview();
+            markWorkspaceDirty();
             showToast('✓ Added new corporate subsidiary.', 'success');
         }
 
@@ -1060,16 +1547,62 @@
                 selectedOfficeIndex = Math.max(0, index - 1);
                 renderSubsidiaryRail();
                 renderActiveEntityDetails();
+                renderLiveMiniPreview();
+                markWorkspaceDirty();
                 showToast(`Deleted ${office.shortName}.`, 'warning');
             }
         }
 
-        // SECTION 2: Render Social Media
+        // ==========================================
+        // SECTION 2: Departments & Practice Areas
+        // ==========================================
+        function renderDepartmentTags() {
+            const container = document.getElementById('departmentTagsContainer');
+            const badge = document.getElementById('deptCountBadge');
+            if (badge) badge.textContent = configState.departments.length;
+            if (!container) return;
+
+            container.innerHTML = configState.departments.map((dept, idx) => `
+                <div class="dept-chip">
+                    <span>${dept}</span>
+                    <button class="dept-remove-btn" onclick="removeDepartment(${idx})" title="Remove department" type="button">×</button>
+                </div>
+            `).join('');
+        }
+
+        function addNewDepartment() {
+            const input = document.getElementById('newDeptInput');
+            if (!input) return;
+            const val = input.value.trim();
+            if (!val) return;
+            if (configState.departments.includes(val)) {
+                showToast('Department already exists.', 'warning');
+                return;
+            }
+            configState.departments.push(val);
+            input.value = '';
+            renderDepartmentTags();
+            markWorkspaceDirty();
+            showToast(`✓ Added department "${val}".`, 'success');
+        }
+
+        function removeDepartment(idx) {
+            const name = configState.departments[idx];
+            configState.departments.splice(idx, 1);
+            renderDepartmentTags();
+            markWorkspaceDirty();
+            showToast(`Removed "${name}".`, 'warning');
+        }
+
+        // ==========================================
+        // SECTION 3: Social Media
+        // ==========================================
         function renderSocialMediaCards() {
             const container = document.getElementById('socialMediaCardsContainer');
+            if (!container) return;
             container.innerHTML = Object.keys(configState.socialMedia).map(key => {
                 const s = configState.socialMedia[key];
-                const iconSrc = s.iconPng || `assets/img/social/${key}.png`;
+                const iconSrc = resolveAssetUrl(s.iconPng || `assets/img/social/${key}.png`);
                 return `
                 <div class="social-card">
                     <div class="social-card-header">
@@ -1085,7 +1618,7 @@
                     </div>
                     <div class="form-group">
                         <label class="form-label" for="social_${key}">Destination URL</label>
-                        <input type="url" id="social_${key}" class="form-input" value="${s.url}" onchange="updateSocialUrl('${key}', this.value)">
+                        <input type="url" id="social_${key}" class="form-input" value="${s.url}" oninput="updateSocialUrl('${key}', this.value)">
                     </div>
                 </div>`;
             }).join('');
@@ -1094,18 +1627,22 @@
         function updateSocialUrl(key, val) {
             if (configState.socialMedia[key]) {
                 configState.socialMedia[key].url = val;
+                markWorkspaceDirty();
                 showHubStatus(`Updated ${configState.socialMedia[key].name} URL`);
             }
         }
 
-        // SECTION 3: Branding & Palette
+        // ==========================================
+        // SECTION 4: Branding & Palette
+        // ==========================================
         function renderBrandPaletteSwatches() {
             const grid = document.getElementById('brandPaletteGrid');
+            if (!grid) return;
             grid.innerHTML = BRAND_PALETTE_GUIDE.map(item => {
                 const currentHex = configState.branding[item.key] || item.hex;
                 return `
-                <div class="swatch-card">
-                    <input type="color" value="${currentHex}" onchange="updateBrandingColor('${item.key}', this.value, this)" style="opacity: 0; position: absolute; inset: 0; width: 100%; height: 100%; cursor: pointer;">
+                <div class="swatch-card" style="position: relative;">
+                    <input type="color" value="${currentHex}" oninput="updateBrandingColor('${item.key}', this.value)" style="opacity: 0; position: absolute; inset: 0; width: 100%; height: 100%; cursor: pointer;">
                     <div class="swatch-chip" style="background-color: ${currentHex};" id="chip_${item.key}"></div>
                     <div class="swatch-details">
                         <div class="swatch-role">${item.role}</div>
@@ -1115,22 +1652,29 @@
                 </div>`;
             }).join('');
 
-            document.getElementById('cfgBaseUrl').value = configState.branding.baseUrl || 'https://sign.suamisihat.myds.me/';
-            document.getElementById('cfgBannerUrl').value = configState.branding.bannerUrl || 'assets/img/ss-banner.gif';
-            document.getElementById('cfgBannerLink').value = configState.branding.bannerLink || 'https://suamisihat.clinic';
+            const bUrl = document.getElementById('cfgBaseUrl');
+            const banUrl = document.getElementById('cfgBannerUrl');
+            const banLink = document.getElementById('cfgBannerLink');
+            if (bUrl) bUrl.value = configState.branding.baseUrl || 'https://sign.suamisihat.myds.me/';
+            if (banUrl) banUrl.value = configState.branding.bannerUrl || 'assets/img/ss-banner.gif';
+            if (banLink) banLink.value = configState.branding.bannerLink || 'https://suamisihat.clinic';
         }
 
-        function updateBrandingColor(key, hex, inputEl) {
+        function updateBrandingColor(key, hex) {
             configState.branding[key] = hex;
             const chip = document.getElementById('chip_' + key);
             const text = document.getElementById('hex_' + key);
             if (chip) chip.style.backgroundColor = hex;
             if (text) text.textContent = hex;
+            renderLiveMiniPreview();
+            markWorkspaceDirty();
             showHubStatus(`Updated brand token ${key} to ${hex}`);
         }
 
         function updateBrandingField(field, val) {
             configState.branding[field] = val;
+            renderLiveMiniPreview();
+            markWorkspaceDirty();
             showHubStatus(`Updated branding.${field}`);
         }
 
@@ -1139,9 +1683,9 @@
             const statusText = document.getElementById('bannerStatusText');
             if (!bannerImg) return;
 
-            bannerImg.src = configState.branding.bannerUrl;
+            bannerImg.src = resolveAssetUrl(configState.branding.bannerUrl);
             bannerImg.onload = () => {
-                if (statusText) statusText.innerHTML = '✅ Active asset loaded';
+                if (statusText) statusText.innerHTML = `✅ ${bannerImg.naturalWidth}×${bannerImg.naturalHeight}px • Banner Verified`;
             };
             bannerImg.onerror = () => {
                 if (statusText) statusText.innerHTML = '⚠️ Banner file unreachable';
@@ -1156,50 +1700,129 @@
                 .catch(() => showToast('⚠️ Unable to ping server directly (CORS or offline).', 'warning'));
         }
 
-        // SECTION 4: Defaults Form
+        // ==========================================
+        // SECTION 5: Defaults Form
+        // ==========================================
         function renderDefaultsForm() {
             const grid = document.getElementById('defaultsFormGrid');
+            if (!grid) return;
             const d = configState.defaults;
 
             grid.innerHTML = `
                 <div class="form-group">
                     <label class="form-label" for="defFirstName">First Name</label>
-                    <input type="text" id="defFirstName" class="form-input" value="${d.firstName || ''}" onchange="updateDefaultField('firstName', this.value)">
+                    <input type="text" id="defFirstName" class="form-input" value="${d.firstName || ''}" oninput="updateDefaultField('firstName', this.value)">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="defLastName">Last Name</label>
-                    <input type="text" id="defLastName" class="form-input" value="${d.lastName || ''}" onchange="updateDefaultField('lastName', this.value)">
+                    <input type="text" id="defLastName" class="form-input" value="${d.lastName || ''}" oninput="updateDefaultField('lastName', this.value)">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="defCredentials">Credentials / Post-nominals</label>
-                    <input type="text" id="defCredentials" class="form-input" value="${d.credentials || ''}" onchange="updateDefaultField('credentials', this.value)">
+                    <input type="text" id="defCredentials" class="form-input" value="${d.credentials || ''}" oninput="updateDefaultField('credentials', this.value)">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="defPosition">Designation / Role</label>
-                    <input type="text" id="defPosition" class="form-input" value="${d.position || ''}" onchange="updateDefaultField('position', this.value)">
+                    <input type="text" id="defPosition" class="form-input" value="${d.position || ''}" oninput="updateDefaultField('position', this.value)">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="defDepartment">Practice Area / Department</label>
-                    <input type="text" id="defDepartment" class="form-input" value="${d.department || ''}" onchange="updateDefaultField('department', this.value)">
+                    <input type="text" id="defDepartment" class="form-input" value="${d.department || ''}" oninput="updateDefaultField('department', this.value)">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="defEmail">Default Email</label>
-                    <input type="email" id="defEmail" class="form-input" value="${d.email || ''}" onchange="updateDefaultField('email', this.value)">
+                    <input type="email" id="defEmail" class="form-input" value="${d.email || ''}" oninput="updateDefaultField('email', this.value)">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="defPhone">Default Mobile Phone</label>
-                    <input type="tel" id="defPhone" class="form-input" value="${d.phone || ''}" onchange="updateDefaultField('phone', this.value)">
+                    <input type="tel" id="defPhone" class="form-input" value="${d.phone || ''}" oninput="updateDefaultField('phone', this.value)">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="defBookingUrl">Default Appointment Booking URL</label>
-                    <input type="url" id="defBookingUrl" class="form-input" value="${d.bookingUrl || ''}" onchange="updateDefaultField('bookingUrl', this.value)">
+                    <input type="url" id="defBookingUrl" class="form-input" value="${d.bookingUrl || ''}" oninput="updateDefaultField('bookingUrl', this.value)">
                 </div>
             `;
         }
 
         function updateDefaultField(field, val) {
             configState.defaults[field] = val;
+            renderLiveMiniPreview();
+            markWorkspaceDirty();
             showHubStatus(`Updated defaults.${field}`);
+        }
+
+        // ==========================================
+        // SECTION 6: Persistence & Save Architecture
+        // ==========================================
+
+        // 1. Auto-save to Local Browser Workspace
+        function saveToWorkspace() {
+            try {
+                localStorage.setItem('ss_signature_config', JSON.stringify(configState));
+                const statusEl = document.getElementById('saveStatusText');
+                const badgeEl = document.getElementById('headerSaveStatus');
+                if (statusEl) statusEl.textContent = 'Workspace Synced';
+                if (badgeEl) badgeEl.classList.remove('unsaved');
+                showHubStatus(`Saved at ${new Date().toLocaleTimeString()} • Instant cross-tab sync active`);
+            } catch (e) {
+                console.error('LocalStorage write error:', e);
+            }
+        }
+
+        function markWorkspaceDirty() {
+            const statusEl = document.getElementById('saveStatusText');
+            const badgeEl = document.getElementById('headerSaveStatus');
+            if (statusEl) statusEl.textContent = 'Auto-saving...';
+            if (badgeEl) badgeEl.classList.add('unsaved');
+
+            clearTimeout(autoSaveTimer);
+            autoSaveTimer = setTimeout(() => {
+                saveToWorkspace();
+            }, 350);
+        }
+
+        // 2. Direct Native File Save via File System Access API
+        async function saveToFileSystemDirect() {
+            const code = buildConfigJsString();
+
+            // Native File System Access API (Supported in modern Chrome & Edge)
+            if ('showSaveFilePicker' in window) {
+                try {
+                    const handle = await window.showSaveFilePicker({
+                        suggestedName: 'config.js',
+                        types: [{
+                            description: 'JavaScript Configuration File (config.js)',
+                            accept: { 'application/javascript': ['.js'] },
+                        }],
+                    });
+                    const writable = await handle.createWritable();
+                    await writable.write(code);
+                    await writable.close();
+
+                    saveToWorkspace();
+                    showToast('✓ Saved directly to ' + handle.name + '! Config file updated on disk.', 'success');
+                    return;
+                } catch (err) {
+                    if (err.name === 'AbortError') {
+                        return; // User cancelled dialog
+                    }
+                    console.warn('Native File System API error, falling back to download:', err);
+                }
+            }
+
+            // Fallback: standard file download
+            downloadConfigJs();
+        }
+
+        // 3. Reset Workspace to Factory Defaults
+        function resetWorkspaceToDefaults() {
+            if (confirm('Reset all configuration back to factory standard? Any local unsaved workspace edits will be discarded.')) {
+                localStorage.removeItem('ss_signature_config');
+                configState = JSON.parse(JSON.stringify(CONFIG));
+                selectedOfficeIndex = 0;
+                initializeWorkspace();
+                showToast('✓ Reset to standard SuamiSihat configuration!', 'success');
+            }
         }
 
         // Export Code Generation
@@ -1227,7 +1850,7 @@ const CONFIG = ${JSON.stringify(configState, null, 4)};
             a.click();
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-            showToast('✓ config.js generated and downloaded! Copy to \\\\SSNAS\\web\\ss_signature\\assets\\js\\', 'success');
+            showToast('✓ config.js generated! Copy file to \\\\SSNAS\\web\\ss_signature\\assets\\js\\', 'success');
         }
 
         async function copyConfigCode() {
@@ -1238,6 +1861,8 @@ const CONFIG = ${JSON.stringify(configState, null, 4)};
                 } else {
                     const ta = document.createElement('textarea');
                     ta.value = code;
+                    ta.style.position = 'fixed';
+                    ta.style.left = '-9999px';
                     document.body.appendChild(ta);
                     ta.select();
                     document.execCommand('copy');
@@ -1266,6 +1891,7 @@ const CONFIG = ${JSON.stringify(configState, null, 4)};
                         configState = JSON.parse(match[1]);
                         selectedOfficeIndex = 0;
                         initializeWorkspace();
+                        saveToWorkspace();
                         showToast('✓ Configuration loaded successfully from ' + file.name, 'success');
                     } else {
                         showToast('⚠️ Invalid config.js file format.', 'warning');

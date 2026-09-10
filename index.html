@@ -28,9 +28,22 @@
             </div>
 
             <div class="header-actions">
+                <div id="workspaceOverrideIndicator" style="display: none; align-items: center; gap: 8px;">
+                    <span style="display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; font-weight: 700; color: var(--ss-gold); background: rgba(189,154,115,0.15); border: 1px solid rgba(189,154,115,0.3); padding: 3px 8px; border-radius: 999px;">
+                        <span style="width:6px; height:6px; border-radius:50%; background:var(--ss-gold);"></span>
+                        Custom Config Active
+                    </span>
+                    <button onclick="resetWorkspaceConfig()" style="background: var(--bg-surface); border: 1px solid var(--border-color); color: var(--text-muted); font-size: 0.75rem; font-weight:600; padding: 4px 8px; border-radius: 6px; cursor: pointer;" title="Clear local workspace and revert to standard config.js">
+                        Revert
+                    </button>
+                </div>
                 <a href="config.html" class="header-link-btn" title="Manage Offices, Socials & Branding">
                     <span>⚙️</span> Configuration Manager
                 </a>
+                <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode" style="display: inline-flex; align-items: center; justify-content: center; width: 38px; height: 38px; padding: 0; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-surface); color: var(--text-primary); cursor: pointer; font-size: 1.1rem;">
+                    <span class="sun-icon">☀️</span>
+                    <span class="moon-icon active">🌙</span>
+                </button>
             </div>
         </header>
 
@@ -285,6 +298,22 @@
     <!-- Scripts -->
     <script src="assets/js/config.js"></script>
     <script>
+        // Check for workspace persistence override saved from config.html
+        let isCustomWorkspaceActive = false;
+        try {
+            const savedWorkspace = localStorage.getItem('ss_signature_config');
+            if (savedWorkspace) {
+                const parsed = JSON.parse(savedWorkspace);
+                if (parsed && parsed.offices && parsed.offices.length > 0) {
+                    window.CONFIG = parsed;
+                    isCustomWorkspaceActive = true;
+                    console.log('SuamiSihat: Using active workspace configuration from browser storage');
+                }
+            }
+        } catch (err) {
+            console.warn('Could not parse custom configuration:', err);
+        }
+
         // State variables
         let currentTemplateStyle = CONFIG.defaults.templateStyle || 'executive';
         let currentSimulatorMode = 'light';
@@ -293,10 +322,21 @@
         // Initialize application on DOM ready
         document.addEventListener('DOMContentLoaded', () => {
             initializeTheme();
+            if (isCustomWorkspaceActive) {
+                const indicator = document.getElementById('workspaceOverrideIndicator');
+                if (indicator) indicator.style.display = 'inline-flex';
+            }
             populateFormOptions();
             bindLiveEventListeners();
             updateLiveSignature();
         });
+
+        function resetWorkspaceConfig() {
+            if (confirm('Revert signature workspace back to standard config.js defaults? Any customized workspace tokens will be cleared.')) {
+                localStorage.removeItem('ss_signature_config');
+                window.location.reload();
+            }
+        }
 
         // Populate dropdown options from CONFIG
         function populateFormOptions() {
