@@ -817,16 +817,14 @@
                 <span class="tab-badge" id="deptCountBadge">9</span>
             </button>
             <button class="config-tab-btn" onclick="switchConfigTab('social', this)">
-                <span>🌐</span> Social Media Links
+                <span>🌐</span> Social Media
+                <span class="tab-badge" id="socialCountBadge">7</span>
             </button>
             <button class="config-tab-btn" onclick="switchConfigTab('branding', this)">
-                <span>🎨</span> Brand Assets & Palette
+                <span>📢</span> Campaign Banner
             </button>
             <button class="config-tab-btn" onclick="switchConfigTab('defaults', this)">
                 <span>👤</span> Default Practitioner
-            </button>
-            <button class="config-tab-btn" onclick="switchConfigTab('export', this)">
-                <span>💾</span> Export & Deploy
             </button>
         </nav>
 
@@ -856,42 +854,57 @@
             </div>
         </section>
 
-        <!-- SECTION 2: Social Media Links -->
+        <!-- SECTION 2: Social Media Platforms -->
         <section id="tab-social" class="config-tab-panel" style="display: none;">
             <div class="card-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="step-badge">🌐</span>
-                        Official Social Media Platforms
-                    </h2>
+                <div class="section-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                    <div>
+                        <h2 class="section-title">
+                            <span class="step-badge">🌐</span>
+                            Official Social Media Channels
+                        </h2>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">
+                            Configured channels are rendered as high-DPI Retina PNGs (48×48px in <code style="color: var(--ss-azure);">#043388</code>) with absolute HTTPS paths for 100% email delivery.
+                        </p>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                        <span style="font-size: 0.75rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.5px;">Quick Add:</span>
+                        <button class="action-btn action-btn-secondary" onclick="addSocialPreset('telegram')" type="button" style="padding: 5px 12px; font-size: 0.8rem;">
+                            <span>✈️</span> + Telegram
+                        </button>
+                        <button class="action-btn action-btn-secondary" onclick="addSocialPreset('tiktok')" type="button" style="padding: 5px 12px; font-size: 0.8rem;">
+                            <span>🎵</span> + TikTok
+                        </button>
+                        <button class="action-btn action-btn-secondary" onclick="addSocialPreset('x')" type="button" style="padding: 5px 12px; font-size: 0.8rem;">
+                            <span>✖️</span> + X (Twitter)
+                        </button>
+                        <button class="action-btn action-btn-primary" onclick="promptAddCustomSocial()" type="button" style="padding: 5px 12px; font-size: 0.8rem;">
+                            <span>+</span> Custom Channel
+                        </button>
+                    </div>
                 </div>
-                <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.5rem;">
-                    Configured channels are automatically converted to high-DPI Retina PNGs (48×48px) with absolute HTTPS paths, guaranteeing delivery across Gmail, Apple Mail, and Outlook.
-                </p>
 
-                <div class="social-grid-cards" id="socialMediaCardsContainer">
+                <div class="social-grid-cards" id="socialMediaCardsContainer" style="margin-top: 1.5rem;">
                     <!-- Populated dynamically -->
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 3: Brand Assets & Palette -->
+        <!-- SECTION 3: Campaign Banner & Assets -->
         <section id="tab-branding" class="config-tab-panel" style="display: none;">
             <div class="card-section">
                 <div class="section-header">
                     <h2 class="section-title">
-                        <span class="step-badge">🎨</span>
-                        Authoritative Brand Palette (60:30:10 Medical System)
+                        <span class="step-badge">📢</span>
+                        Promotional Campaign Banner & Assets
                     </h2>
                 </div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.5rem;">
+                    Configure the global promotional banner displayed across all corporate email signatures and the production HTTPS base URL used for image delivery.
+                </p>
 
-                <!-- Palette Inspector -->
-                <div class="palette-swatches-grid" id="brandPaletteGrid">
-                    <!-- Populated dynamically -->
-                </div>
-
-                <!-- Production Base URL -->
-                <div class="form-grid" style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem;">
+                <!-- Production Base URL & Campaign Banner -->
+                <div class="form-grid">
                     <div class="form-group full-width">
                         <label class="form-label" for="cfgBaseUrl">
                             Production Asset Base URL
@@ -899,7 +912,7 @@
                         </label>
                         <div style="display: flex; gap: 10px; align-items: center;">
                             <input type="url" id="cfgBaseUrl" class="form-input" style="flex: 1;" onchange="updateBrandingField('baseUrl', this.value)">
-                            <button class="action-btn action-btn-secondary" onclick="pingBaseUrl()" style="white-space: nowrap;">
+                            <button class="action-btn action-btn-secondary" onclick="pingBaseUrl()" style="white-space: nowrap;" type="button">
                                 <span>⚡</span> Test Server
                             </button>
                         </div>
@@ -980,40 +993,6 @@
             </div>
         </section>
 
-        <!-- SECTION 6: Export & Deployment Hub -->
-        <section id="tab-export" class="config-tab-panel" style="display: none;">
-            <div class="card-section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span class="step-badge">💾</span>
-                        Configuration Export & NAS Synchronization
-                    </h2>
-                </div>
-
-                <div style="background: var(--bg-input); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem;">
-                    <h4 style="font-size: 0.95rem; font-weight: 700; color: var(--ss-azure); margin-bottom: 6px;">
-                        🌐 Live Production Deployment Path
-                    </h4>
-                    <p style="font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5;">
-                        The live generator at <a href="https://sign.suamisihat.myds.me/" target="_blank" style="color: var(--ss-azure); font-weight: 600;">https://sign.suamisihat.myds.me/</a> reads directly from the Synology NAS web share:
-                    </p>
-                    <div style="background: rgba(0,0,0,0.25); padding: 8px 12px; border-radius: 6px; font-family: monospace; font-size: 0.85rem; margin: 8px 0; color: var(--ss-gold);">
-                        \\SSNAS\web\ss_signature\assets\js\config.js
-                    </div>
-                    <p style="font-size: 0.8rem; color: var(--text-muted);">
-                        Saving and replacing <code>config.js</code> immediately updates all default subsidiaries, social channels, and branding for all employees.
-                    </p>
-                </div>
-
-                <div class="form-grid">
-                    <div class="form-group full-width">
-                        <label class="form-label">Active Configuration JavaScript Code</label>
-                        <textarea id="rawConfigOutput" class="form-textarea" style="height: 280px; font-family: monospace; font-size: 0.8rem;" readonly></textarea>
-                    </div>
-                </div>
-            </div>
-        </section>
-
         <!-- Sticky Action Hub Bar -->
         <footer class="config-action-hub">
             <div class="hub-info">
@@ -1025,33 +1004,24 @@
             </div>
 
             <div class="hub-buttons">
-                <button class="action-btn action-btn-secondary" onclick="loadConfigFilePicker()" title="Load existing config.js from disk">
-                    <span>📂</span> Load File
-                </button>
                 <button class="action-btn action-btn-secondary" onclick="resetWorkspaceToDefaults()" title="Reset workspace back to original config.js defaults">
                     <span>🔄</span> Reset Defaults
                 </button>
                 <button class="action-btn action-btn-secondary" onclick="copyConfigCode()" title="Copy JavaScript configuration code to clipboard">
                     <span>📋</span> Copy Code
                 </button>
-                <button class="action-btn action-btn-secondary" onclick="downloadConfigJs()" title="Download config.js to your downloads folder">
-                    <span>📥</span> Download config.js
-                </button>
                 <button class="action-btn action-btn-primary" onclick="saveToServerDirect()" title="Direct 1-click auto-save to server assets/js/config.js">
                     <span>💾</span> Auto-Save to Server
                 </button>
             </div>
         </footer>
-
-        <!-- Toast Feedback Notification -->
-        <div class="toast-feedback" id="toastFeedback">
-            <span class="toast-icon" id="toastIcon">✓</span>
-            <span class="toast-message" id="toastMessage">Action completed successfully.</span>
-        </div>
     </div>
 
-    <!-- Hidden file input for loading config.js -->
-    <input type="file" id="configFileUploader" accept=".js" style="display: none;" onchange="handleConfigUpload(event)">
+    <!-- Toast Feedback Notification -->
+    <div class="toast-feedback" id="toastFeedback">
+        <span class="toast-icon" id="toastIcon">✓</span>
+        <span class="toast-message" id="toastMessage">Action completed successfully.</span>
+    </div>
 
     <!-- Include authoritative config -->
     <script src="assets/js/config.js"></script>
@@ -1079,18 +1049,6 @@
         let miniSimulatorMode = 'light';
         let autoSaveTimer = null;
 
-        // Authoritative Brand Colors definition for Palette Swatches
-        const BRAND_PALETTE_GUIDE = [
-            { key: 'primaryColor', name: 'SuamiSihat Blue', role: 'Identity Accent', hex: '#043388' },
-            { key: 'prussianBlue', name: 'Prussian Blue', role: 'Deep Foundation', hex: '#022057' },
-            { key: 'secondaryColor', name: 'Azure Interactive', role: 'Interactive 10%', hex: '#21A1F7' },
-            { key: 'malibu', name: 'Malibu', role: 'Supporting Cyan', hex: '#6DC6EC' },
-            { key: 'lion', name: 'Lion Gold', role: 'Prestige Accent', hex: '#BD9A73' },
-            { key: 'fawn', name: 'Warm Fawn', role: 'Subtle Gold', hex: '#CCAC8D' },
-            { key: 'charcoal', name: 'Slate Charcoal', role: 'Body Typography', hex: '#334155' },
-            { key: 'muted', name: 'Slate Muted', role: 'Metadata Secondary', hex: '#64748B' }
-        ];
-
         // Resolve absolute URL for email assets
         function resolveAssetUrl(assetPath) {
             if (!assetPath) return '';
@@ -1114,10 +1072,12 @@
                 target.style.display = 'block';
             }
 
-            if (tabKey === 'export') {
-                refreshExportOutput();
-            } else if (tabKey === 'departments') {
+            if (tabKey === 'departments') {
                 renderDepartmentTags();
+            } else if (tabKey === 'social') {
+                renderSocialMediaCards();
+            } else if (tabKey === 'branding') {
+                renderBrandingSettings();
             }
         }
 
@@ -1127,9 +1087,8 @@
             renderActiveEntityDetails();
             renderDepartmentTags();
             renderSocialMediaCards();
-            renderBrandPaletteSwatches();
+            renderBrandingSettings();
             renderDefaultsForm();
-            updateBannerPreview();
             initializeTheme();
             renderLiveMiniPreview();
         }
@@ -1598,12 +1557,69 @@
         }
 
         // ==========================================
-        // SECTION 3: Social Media
+        // SECTION 3: Social Media Channels
         // ==========================================
+        const SOCIAL_PRESETS = {
+            telegram: {
+                name: 'Telegram',
+                url: 'https://t.me/suamisihat',
+                iconPng: 'assets/img/social/telegram.png'
+            },
+            tiktok: {
+                name: 'TikTok',
+                url: 'https://www.tiktok.com/@suamisihat',
+                iconPng: 'assets/img/social/tiktok.png'
+            },
+            x: {
+                name: 'X (Twitter)',
+                url: 'https://x.com/suamisihat',
+                iconPng: 'assets/img/social/x.png'
+            },
+            whatsapp: {
+                name: 'WhatsApp',
+                url: 'https://api.whatsapp.com/send/?phone=601156672841&text=%28%23M%29+Salam%2C+Saya+Nak+Improve+Kesihatan+Lelaki+Dengan+SuamiSihat&type=phone_number&app_absent=0',
+                iconPng: 'assets/img/social/whatsapp.png'
+            },
+            facebook: {
+                name: 'Facebook',
+                url: 'https://www.facebook.com/suamisihat',
+                iconPng: 'assets/img/social/facebook.png'
+            },
+            instagram: {
+                name: 'Instagram',
+                url: 'https://www.instagram.com/suamisihat.clinic',
+                iconPng: 'assets/img/social/instagram.png'
+            },
+            linkedin: {
+                name: 'LinkedIn',
+                url: 'https://www.linkedin.com/company/suamisihat',
+                iconPng: 'assets/img/social/linkedin.png'
+            },
+            youtube: {
+                name: 'YouTube',
+                url: 'https://www.youtube.com/@SuamiSihat',
+                iconPng: 'assets/img/social/youtube.png'
+            }
+        };
+
         function renderSocialMediaCards() {
             const container = document.getElementById('socialMediaCardsContainer');
+            const badge = document.getElementById('socialCountBadge');
+            const keys = Object.keys(configState.socialMedia || {});
+            if (badge) badge.textContent = keys.length;
             if (!container) return;
-            container.innerHTML = Object.keys(configState.socialMedia).map(key => {
+
+            if (keys.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1 / -1; padding: 2.5rem; text-align: center; background: var(--bg-surface); border: 1px dashed var(--border-color); border-radius: 12px;">
+                        <p style="font-size: 0.95rem; color: var(--text-muted); margin-bottom: 1rem;">No social media channels configured yet.</p>
+                        <button class="action-btn action-btn-primary" onclick="addSocialPreset('telegram')" type="button">+ Add Telegram</button>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = keys.map(key => {
                 const s = configState.socialMedia[key];
                 const iconSrc = resolveAssetUrl(s.iconPng || `assets/img/social/${key}.png`);
                 return `
@@ -1611,17 +1627,22 @@
                     <div class="social-card-header">
                         <div class="social-platform-title">
                             <div class="social-platform-icon">
-                                <img src="${iconSrc}" alt="${s.name}">
+                                <img src="${iconSrc}" alt="${s.name}" onerror="this.src='assets/img/ss_icon_dark.svg'">
                             </div>
                             <span>${s.name}</span>
                         </div>
-                        <a href="${s.url}" target="_blank" rel="noopener" class="test-link-btn">
-                            🔗 Test Link
-                        </a>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <a href="${s.url}" target="_blank" rel="noopener" class="test-link-btn" title="Open test link">
+                                🔗 Test
+                            </a>
+                            <button class="btn-subtle-danger" onclick="deleteSocialPlatform('${key}')" type="button" style="padding: 3px 8px; font-size: 0.75rem;" title="Remove ${s.name}">
+                                🗑️
+                            </button>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label class="form-label" for="social_${key}">Destination URL</label>
-                        <input type="url" id="social_${key}" class="form-input" value="${s.url}" oninput="updateSocialUrl('${key}', this.value)">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <label class="form-label" for="social_${key}">Profile / Channel Destination URL</label>
+                        <input type="url" id="social_${key}" class="form-input" value="${s.url}" oninput="updateSocialUrl('${key}', this.value)" placeholder="https://...">
                     </div>
                 </div>`;
             }).join('');
@@ -1630,51 +1651,89 @@
         function updateSocialUrl(key, val) {
             if (configState.socialMedia[key]) {
                 configState.socialMedia[key].url = val;
+                renderLiveMiniPreview();
                 markWorkspaceDirty();
                 showHubStatus(`Updated ${configState.socialMedia[key].name} URL`);
             }
         }
 
-        // ==========================================
-        // SECTION 4: Branding & Palette
-        // ==========================================
-        function renderBrandPaletteSwatches() {
-            const grid = document.getElementById('brandPaletteGrid');
-            if (!grid) return;
-            grid.innerHTML = BRAND_PALETTE_GUIDE.map(item => {
-                const currentHex = configState.branding[item.key] || item.hex;
-                return `
-                <div class="swatch-card" style="position: relative;">
-                    <input type="color" value="${currentHex}" oninput="updateBrandingColor('${item.key}', this.value)" style="opacity: 0; position: absolute; inset: 0; width: 100%; height: 100%; cursor: pointer;">
-                    <div class="swatch-chip" style="background-color: ${currentHex};" id="chip_${item.key}"></div>
-                    <div class="swatch-details">
-                        <div class="swatch-role">${item.role}</div>
-                        <div class="swatch-name">${item.name}</div>
-                        <div class="swatch-hex" id="hex_${item.key}">${currentHex}</div>
-                    </div>
-                </div>`;
-            }).join('');
+        function addSocialPreset(presetKey) {
+            if (!configState.socialMedia) {
+                configState.socialMedia = {};
+            }
+            if (configState.socialMedia[presetKey]) {
+                showToast(`Platform "${configState.socialMedia[presetKey].name}" is already present.`, 'warning');
+                const inp = document.getElementById(`social_${presetKey}`);
+                if (inp) {
+                    inp.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    inp.focus();
+                }
+                return;
+            }
+            const preset = SOCIAL_PRESETS[presetKey];
+            if (!preset) return;
+            configState.socialMedia[presetKey] = JSON.parse(JSON.stringify(preset));
+            renderSocialMediaCards();
+            renderLiveMiniPreview();
+            markWorkspaceDirty();
+            showToast(`✓ Added ${preset.name} to social media channels.`, 'success');
+        }
 
+        function promptAddCustomSocial() {
+            const name = prompt('Enter the platform name (e.g. Threads, Pinterest):');
+            if (!name || !name.trim()) return;
+            const cleanName = name.trim();
+            const key = cleanName.toLowerCase().replace(/[^a-z0-9]/g, '');
+            if (!key) {
+                showToast('Invalid platform name.', 'warning');
+                return;
+            }
+            if (configState.socialMedia && configState.socialMedia[key]) {
+                showToast(`Platform "${cleanName}" is already present.`, 'warning');
+                return;
+            }
+            const url = prompt(`Enter profile URL for ${cleanName}:`, `https://${key}.com/suamisihat`);
+            if (!url || !url.trim()) return;
+
+            if (!configState.socialMedia) configState.socialMedia = {};
+            configState.socialMedia[key] = {
+                name: cleanName,
+                url: url.trim(),
+                iconPng: `assets/img/social/${key}.png`
+            };
+            renderSocialMediaCards();
+            renderLiveMiniPreview();
+            markWorkspaceDirty();
+            showToast(`✓ Added ${cleanName} platform.`, 'success');
+        }
+
+        function deleteSocialPlatform(key) {
+            const p = configState.socialMedia[key];
+            const pName = p ? p.name : key;
+            if (confirm(`Remove "${pName}" from email signatures?`)) {
+                delete configState.socialMedia[key];
+                renderSocialMediaCards();
+                renderLiveMiniPreview();
+                markWorkspaceDirty();
+                showToast(`Removed "${pName}".`, 'warning');
+            }
+        }
+
+        // ==========================================
+        // SECTION 4: Campaign Banner & Assets
+        // ==========================================
+        function renderBrandingSettings() {
             const bUrl = document.getElementById('cfgBaseUrl');
             const banUrl = document.getElementById('cfgBannerUrl');
             const banLink = document.getElementById('cfgBannerLink');
-            if (bUrl) bUrl.value = configState.branding.baseUrl || 'https://sign.suamisihat.myds.me/';
-            if (banUrl) banUrl.value = configState.branding.bannerUrl || 'assets/img/ss-banner.gif';
-            if (banLink) banLink.value = configState.branding.bannerLink || 'https://suamisihat.clinic';
-        }
-
-        function updateBrandingColor(key, hex) {
-            configState.branding[key] = hex;
-            const chip = document.getElementById('chip_' + key);
-            const text = document.getElementById('hex_' + key);
-            if (chip) chip.style.backgroundColor = hex;
-            if (text) text.textContent = hex;
-            renderLiveMiniPreview();
-            markWorkspaceDirty();
-            showHubStatus(`Updated brand token ${key} to ${hex}`);
+            if (bUrl) bUrl.value = (configState.branding && configState.branding.baseUrl) || 'https://sign.suamisihat.myds.me/';
+            if (banUrl) banUrl.value = (configState.branding && configState.branding.bannerUrl) || 'assets/img/ss-banner.gif';
+            if (banLink) banLink.value = (configState.branding && configState.branding.bannerLink) || 'https://suamisihat.clinic';
+            updateBannerPreview();
         }
 
         function updateBrandingField(field, val) {
+            if (!configState.branding) configState.branding = {};
             configState.branding[field] = val;
             renderLiveMiniPreview();
             markWorkspaceDirty();
@@ -1686,7 +1745,8 @@
             const statusText = document.getElementById('bannerStatusText');
             if (!bannerImg) return;
 
-            bannerImg.src = resolveAssetUrl(configState.branding.bannerUrl);
+            const url = (configState.branding && configState.branding.bannerUrl) ? configState.branding.bannerUrl : 'assets/img/ss-banner.gif';
+            bannerImg.src = resolveAssetUrl(url);
             bannerImg.onload = () => {
                 if (statusText) statusText.innerHTML = `✅ ${bannerImg.naturalWidth}×${bannerImg.naturalHeight}px • Banner Verified`;
             };
@@ -1908,8 +1968,9 @@
                 }
             }
 
-            // Tier 3: Fallback standard file download
-            downloadConfigJs();
+            // Tier 3: Clipboard Fallback
+            await copyConfigCode();
+            showToast('⚠️ Auto-save fallback: Code copied to clipboard.', 'warning');
         }
 
         // Backward compatibility alias
@@ -1926,32 +1987,11 @@
             }
         }
 
-        // Export Code Generation
+        // Configuration Code Generation
         function buildConfigJsString() {
             return `// Email Signature Generator Configuration — SuamiSihat Brand Guidelines
 const CONFIG = ${JSON.stringify(configState, null, 4)};
 `;
-        }
-
-        function refreshExportOutput() {
-            const out = document.getElementById('rawConfigOutput');
-            if (out) {
-                out.value = buildConfigJsString();
-            }
-        }
-
-        function downloadConfigJs() {
-            const code = buildConfigJsString();
-            const blob = new Blob([code], { type: 'application/javascript;charset=utf-8' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'config.js';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            showToast('✓ config.js generated! Copy file to \\\\SSNAS\\web\\ss_signature\\assets\\js\\', 'success');
         }
 
         async function copyConfigCode() {
@@ -1973,35 +2013,6 @@ const CONFIG = ${JSON.stringify(configState, null, 4)};
             } catch (err) {
                 showToast('⚠️ Failed to copy code to clipboard.', 'warning');
             }
-        }
-
-        function loadConfigFilePicker() {
-            document.getElementById('configFileUploader').click();
-        }
-
-        function handleConfigUpload(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = (event) => {
-                try {
-                    const content = event.target.result;
-                    const match = content.match(/const CONFIG = ({[\s\S]*});/);
-                    if (match) {
-                        configState = JSON.parse(match[1]);
-                        selectedOfficeIndex = 0;
-                        initializeWorkspace();
-                        saveToWorkspace();
-                        showToast('✓ Configuration loaded successfully from ' + file.name, 'success');
-                    } else {
-                        showToast('⚠️ Invalid config.js file format.', 'warning');
-                    }
-                } catch (err) {
-                    showToast('⚠️ Parse error: ' + err.message, 'warning');
-                }
-            };
-            reader.readAsText(file);
         }
 
         function showHubStatus(msg) {
